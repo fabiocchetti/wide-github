@@ -1,10 +1,10 @@
 {
 
-  "description": "Makes GitHub layout fluid and responsive on Mozilla Firefox.",
+  "description": "Makes GitHub layout wide, fluid and responsive.",
   "manifest_version": 2,
   "name": "Wide GitHub",
-  "version": "1.0",
-  "homepage_url": "https://github.com/fabiocchetti/firefox-wide-github",
+  "version": "1.0.1",
+  "homepage_url": "https://github.com/fabiocchetti/widegithub",
   "icons": {
     "128": "icons/widegithub-128.png"
   },
