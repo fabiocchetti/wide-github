@@ -1,8 +1,8 @@
 ![wide github logo](icons/WideGitHub_LogoExpanded.png?raw=true)
 
-# WideGitHub
+# Wide GitHub
 
-This is a simple add-on that makes the GitHub layout **wide** on Mozilla Firefox.
+Wide GitHub is a simple add-on that makes the GitHub layout **wide** on Mozilla Firefox.
 Now you can focus on your code.
 
 It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private GitHub domains.
