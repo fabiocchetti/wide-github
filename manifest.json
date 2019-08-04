@@ -1,9 +1,9 @@
 {
 
-  "description": "Makes GitHub layout wide, fluid and responsive.",
+  "description": "Makes GitHub layout wide on Mozilla Firefox.",
   "manifest_version": 2,
   "name": "Wide GitHub",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "homepage_url": "https://github.com/fabiocchetti/widegithub",
   "icons": {
     "128": "icons/widegithub-128.png"
@@ -11,8 +11,10 @@
 
   "content_scripts": [
     {
-      "matches": ["*://github.com/*"],
       "css": ["style.css"],
+      "matches": ["*://github.com/*"],
+      "include_globs": ["*://*github*.com/*"],
+      "exclude_globs": ["*://*github*.com/*/projects/*"],
       "run_at" : "document_start"
     }
   ]
