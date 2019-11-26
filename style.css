@@ -21,199 +21,45 @@ table.files td.content {
     max-width: inherit !important;
 }
 
-@media (min-width: 1800px) {
-    .container-lg {
-        max-width: 1680px !important;
-    }
-
-    .container {
-        width: 1680px !important;
-    }
-
-    .container .gist-content {
-        width: 1480px !important;
-    }
+@media (min-width: 1400px) {
 
     .capped-card {
-        margin-right: 10px !important;
         margin-left: 10px !important;
-    }
-
-    .pinned-repo-item {
-        width: 850px !important;
-    }
-
-    .css-truncate.css-truncate-target {
-        white-space: normal !important;
-        word-wrap: break-word !important;
-    }
-
-    .split-diff .new-pr-form {
-        max-width: none !important;
-    }
-
-    .range-editor .fork-suggester .css-truncate-target {
-        max-width: 680px !important;
-    }
-
-    .container-lg {
-        max-width: 1680px !important;
-    }
-
-    .container {
-        width: 1680px !important;
-    }
-
-    .octotree-show .container {
-        width: calc(100% - 20px) !important;
-    }
-
-    .split-diff .container {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .container .news .css-truncate.css-truncate-target {
-        max-width: 1270px !important;
-    }
-
-    .container .notifications-list .css-truncate {
-        max-width: 900px !important;
-    }
-
-    .container .notifications-list .css-truncate .css-truncate-target {
-        max-width: 900px !important;
-    }
-
-    .container .repo-and-owner {
-        max-width: 770px !important;
-    }
-
-    .container .repo-description.css-truncate-target {
-        max-width: 780px !important;
-        white-space: normal !important;
-        word-wrap: break-word !important;
-    }
-
-    .container .org-main {
-        width: 1390px !important;
-    }
-
-    .container .repo-list-description {
-        max-width: 1350px !important;
-    }
-
-    .container .repository-with-sidebar.with-full-navigation .repository-content {
-        width: 1500px !important;
-    }
-
-    .container .repository-with-sidebar .repository-content {
-        width: 1630px !important;
-    }
-
-    .container .comment-holder {
-        max-width: 1660px !important;
-    }
-
-    .container .timeline-comment {
-        width: 100% !important;
-    }
-
-    .container .timeline-new-comment .timeline-comment {
-        width: 1400px !important;
-    }
-
-    .octotree-show .container .timeline-new-comment .timeline-comment {
-        width: 100% !important;
-    }
-
-    .container .discussion-timeline-actions {
-        width: 1396px !important;
-    }
-
-    .octotree-show .container .discussion-timeline-actions {
-        width: 100% !important;
-    }
-
-    .container .discussion-timeline {
-        width: 1460px !important;
-    }
-
-    .octotree-show .container .discussion-timeline {
-        width: calc(100% - 220px) !important;
-    }
-
-    .container .merge-pr {
-        width: 1460px !important;
-    }
-
-    .octotree-show .container .merge-pr {
-        width: 100% !important;
-    }
-}
-
-@media (min-width: 1400px) {
-    .container-lg {
-        max-width: 1280px !important;
+        margin-right: 10px !important;
     }
 
     .container {
         width: 1280px !important;
+    }
+
+    .container .comment-holder {
+        max-width: 1260px !important;
+    }
+
+    .container .discussion-timeline,
+    .container .merge-pr {
+        width: 1060px !important;
+    }
+
+    .container .discussion-timeline-actions {
+        width: 996px !important;
     }
 
     .container .gist-content {
         width: 1080px !important;
     }
 
-    .capped-card {
-        margin-right: 10px !important;
-        margin-left: 10px !important;
-    }
-
-    .pinned-repo-item {
-        width: 450px !important;
-    }
-
-    .css-truncate.css-truncate-target {
-        white-space: normal !important;
-        word-wrap: break-word !important;
-    }
-
-    .split-diff .new-pr-form {
-        max-width: none !important;
-    }
-
-    .range-editor .fork-suggester .css-truncate-target {
-        max-width: 280px !important;
-    }
-
-    .container-lg {
-        max-width: 1280px !important;
-    }
-
-    .container {
-        width: 1280px !important;
-    }
-
-    .octotree-show .container {
-        width: calc(100% - 20px) !important;
-    }
-
-    .split-diff .container {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
     .container .news .css-truncate.css-truncate-target {
         max-width: 870px !important;
     }
 
-    .container .notifications-list .css-truncate {
+    .container .notifications-list .css-truncate,
+    .container .notifications-list .css-truncate .css-truncate-target {
         max-width: 500px !important;
     }
 
-    .container .notifications-list .css-truncate .css-truncate-target {
-        max-width: 500px !important;
+    .container .org-main {
+        width: 990px !important;
     }
 
     .container .repo-and-owner {
@@ -226,27 +72,22 @@ table.files td.content {
         word-wrap: break-word !important;
     }
 
-    .container .org-main {
-        width: 990px !important;
-    }
-
     .container .repo-list-description {
         max-width: 950px !important;
-    }
-
-    .container .repository-with-sidebar.with-full-navigation .repository-content {
-        width: 1100px !important;
     }
 
     .container .repository-with-sidebar .repository-content {
         width: 1230px !important;
     }
 
-    .container .comment-holder {
-        max-width: 1260px !important;
+    .container .repository-with-sidebar.with-full-navigation .repository-content {
+        width: 1100px !important;
     }
 
-    .container .timeline-comment {
+    .container .timeline-comment,
+    .octotree-show .container .timeline-new-comment .timeline-comment,
+    .octotree-show .container .discussion-timeline-actions,
+    .octotree-show .container .merge-pr {
         width: 100% !important;
     }
 
@@ -254,55 +95,8 @@ table.files td.content {
         width: 1000px !important;
     }
 
-    .octotree-show .container .timeline-new-comment .timeline-comment {
-        width: 100% !important;
-    }
-
-    .container .discussion-timeline-actions {
-        width: 996px !important;
-    }
-
-    .octotree-show .container .discussion-timeline-actions {
-        width: 100% !important;
-    }
-
-    .container .discussion-timeline {
-        width: 1060px !important;
-    }
-
-    .octotree-show .container .discussion-timeline {
-        width: calc(100% - 220px) !important;
-    }
-
-    .container .merge-pr {
-        width: 1060px !important;
-    }
-
-    .octotree-show .container .merge-pr {
-        width: 100% !important;
-    }
-}
-
-@media (min-width: 1600px) {
     .container-lg {
-        max-width: 1480px !important;
-    }
-
-    .container {
-        width: 1480px !important;
-    }
-
-    .container .gist-content {
-        width: 1280px !important;
-    }
-
-    .capped-card {
-        margin-right: 10px !important;
-        margin-left: 10px !important;
-    }
-
-    .pinned-repo-item {
-        width: 650px !important;
+        max-width: 1280px !important;
     }
 
     .css-truncate.css-truncate-target {
@@ -310,24 +104,20 @@ table.files td.content {
         word-wrap: break-word !important;
     }
 
-    .split-diff .new-pr-form {
-        max-width: none !important;
+    .octotree-show .container {
+        width: calc(100% - 20px) !important;
+    }
+
+    .octotree-show .container .discussion-timeline {
+        width: calc(100% - 220px) !important;
+    }
+
+    .pinned-repo-item {
+        width: 450px !important;
     }
 
     .range-editor .fork-suggester .css-truncate-target {
-        max-width: 480px !important;
-    }
-
-    .container-lg {
-        max-width: 1480px !important;
-    }
-
-    .container {
-        width: 1480px !important;
-    }
-
-    .octotree-show .container {
-        width: calc(100% - 20px) !important;
+        max-width: 280px !important;
     }
 
     .split-diff .container {
@@ -335,16 +125,51 @@ table.files td.content {
         padding-right: 0 !important;
     }
 
+    .split-diff .new-pr-form {
+        max-width: none !important;
+    }
+
+}
+
+@media (min-width: 1600px) {
+
+    .capped-card {
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+
+    .container {
+        width: 1480px !important;
+    }
+
+    .container .comment-holder {
+        max-width: 1460px !important;
+    }
+
+    .container .discussion-timeline,
+    .container .merge-pr {
+        width: 1260px !important;
+    }
+
+    .container .discussion-timeline-actions {
+        width: 1196px !important;
+    }
+
+    .container .gist-content {
+        width: 1280px !important;
+    }
+
     .container .news .css-truncate.css-truncate-target {
         max-width: 1070px !important;
     }
 
-    .container .notifications-list .css-truncate {
+    .container .notifications-list .css-truncate,
+    .container .notifications-list .css-truncate .css-truncate-target {
         max-width: 700px !important;
     }
 
-    .container .notifications-list .css-truncate .css-truncate-target {
-        max-width: 700px !important;
+    .container .org-main {
+        width: 1190px !important;
     }
 
     .container .repo-and-owner {
@@ -357,27 +182,22 @@ table.files td.content {
         word-wrap: break-word !important;
     }
 
-    .container .org-main {
-        width: 1190px !important;
-    }
-
     .container .repo-list-description {
         max-width: 1150px !important;
-    }
-
-    .container .repository-with-sidebar.with-full-navigation .repository-content {
-        width: 1300px !important;
     }
 
     .container .repository-with-sidebar .repository-content {
         width: 1430px !important;
     }
 
-    .container .comment-holder {
-        max-width: 1460px !important;
+    .container .repository-with-sidebar.with-full-navigation .repository-content {
+        width: 1300px !important;
     }
 
-    .container .timeline-comment {
+    .container .timeline-comment,
+    .octotree-show .container .timeline-new-comment .timeline-comment,
+    .octotree-show .container .discussion-timeline-actions,
+    .octotree-show .container .merge-pr {
         width: 100% !important;
     }
 
@@ -385,31 +205,148 @@ table.files td.content {
         width: 1200px !important;
     }
 
-    .octotree-show .container .timeline-new-comment .timeline-comment {
-        width: 100% !important;
+    .container-lg {
+        max-width: 1480px !important;
     }
 
-    .container .discussion-timeline-actions {
-        width: 1196px !important;
+    .css-truncate.css-truncate-target {
+        white-space: normal !important;
+        word-wrap: break-word !important;
     }
 
-    .octotree-show .container .discussion-timeline-actions {
-        width: 100% !important;
-    }
-
-    .container .discussion-timeline {
-        width: 1260px !important;
+    .octotree-show .container {
+        width: calc(100% - 20px) !important;
     }
 
     .octotree-show .container .discussion-timeline {
         width: calc(100% - 220px) !important;
     }
 
-    .container .merge-pr {
-        width: 1260px !important;
+    .pinned-repo-item {
+        width: 650px !important;
     }
 
+    .range-editor .fork-suggester .css-truncate-target {
+        max-width: 480px !important;
+    }
+
+    .split-diff .container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .split-diff .new-pr-form {
+        max-width: none !important;
+    }
+
+}
+
+@media (min-width: 1800px) {
+
+    .capped-card {
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+
+    .container {
+        width: 1680px !important;
+    }
+
+    .container .comment-holder {
+        max-width: 1660px !important;
+    }
+
+    .container .discussion-timeline,
+    .container .merge-pr {
+        width: 1460px !important;
+    }
+
+    .container .discussion-timeline-actions {
+        width: 1396px !important;
+    }
+
+    .container .gist-content {
+        width: 1480px !important;
+    }
+
+    .container .news .css-truncate.css-truncate-target {
+        max-width: 1270px !important;
+    }
+
+    .container .notifications-list .css-truncate,
+    .container .notifications-list .css-truncate .css-truncate-target {
+        max-width: 900px !important;
+    }
+
+    .container .org-main {
+        width: 1390px !important;
+    }
+
+    .container .repo-and-owner {
+        max-width: 770px !important;
+    }
+
+    .container .repo-description.css-truncate-target {
+        max-width: 780px !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+    }
+
+    .container .repo-list-description {
+        max-width: 1350px !important;
+    }
+
+    .container .repository-with-sidebar .repository-content {
+        width: 1630px !important;
+    }
+
+    .container .repository-with-sidebar.with-full-navigation .repository-content {
+        width: 1500px !important;
+    }
+
+    .container .timeline-comment,
+    .octotree-show .container .timeline-new-comment .timeline-comment,
+    .octotree-show .container .discussion-timeline-actions,
     .octotree-show .container .merge-pr {
         width: 100% !important;
     }
+
+    .container .timeline-new-comment .timeline-comment {
+        width: 1400px !important;
+    }
+
+    .container-lg {
+        max-width: 1680px !important;
+    }
+
+    .css-truncate.css-truncate-target {
+        white-space: normal !important;
+        word-wrap: break-word !important;
+    }
+
+    .octotree-show .container {
+        width: calc(100% - 20px) !important;
+    }
+
+    .octotree-show .container .discussion-timeline {
+        width: calc(100% - 220px) !important;
+    }
+
+    .pinned-repo-item {
+        width: 850px !important;
+    }
+
+    .range-editor .fork-suggester .css-truncate-target {
+        max-width: 680px !important;
+    }
+
+    .split-diff .container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .split-diff .new-pr-form {
+        max-width: none !important;
+    }
+
 }

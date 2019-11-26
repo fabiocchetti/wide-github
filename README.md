@@ -9,6 +9,10 @@ It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private Gi
 
 ### Changelog
 
+**1.2.0**
+- Native support for extra large displays ([Issue #4](https://github.com/fabiocchetti/widegithub/issues/4)).
+- Several improvements to the CSS code.
+
 **1.1.0**
 - Support for private GitHub domains ([Issue #1](https://github.com/fabiocchetti/widegithub/issues/1)).
 - [Project views](https://help.github.com/en/articles/about-project-boards) have been excluded. WideGitHub should not be enabled there ([Issue #2](https://github.com/fabiocchetti/widegithub/issues/2)).
