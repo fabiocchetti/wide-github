@@ -13,8 +13,8 @@
     {
       "css": ["style.css"],
       "matches": ["*://github.com/*"],
-      "include_globs": ["*://*github*.com/*"],
-      "exclude_globs": ["*://*github*.com/*/projects/*"],
+      "include_globs": ["*://*github*.com/*", "*://*github*.io/*"],
+      "exclude_globs": ["*://*github*.com/*/projects/*", "*://*github*.io/*/projects/*"],
       "run_at" : "document_start"
     }
   ]
