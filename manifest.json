@@ -3,10 +3,11 @@
   "description": "Makes GitHub layout wide on Mozilla Firefox.",
   "manifest_version": 2,
   "name": "Wide GitHub",
-  "version": "1.2.0",
-  "homepage_url": "https://github.com/fabiocchetti/widegithub",
+  "version": "2.0.0",
+  "homepage_url": "https://github.com/fabiocchetti/wide-github",
   "icons": {
-    "128": "icons/widegithub-128.png"
+    "48": "icons/wide-github-48.png",
+    "96": "icons/wide-github-96.png"
   },
 
   "content_scripts": [
