@@ -1,22 +1,28 @@
-![wide github logo](icons/WideGitHub_LogoExpanded.png?raw=true)
+![wide github logo](icons/Wide-GitHub_LogoExpanded.png?raw=true)
 
 # Wide GitHub
 
 Wide GitHub is a simple add-on that makes the GitHub layout **wide** on Mozilla Firefox.
-Now you can focus on your code.
+Now you can really focus on your code.
 
-It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private GitHub domains.
+It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private GitHub (and some GitHub Enterprise) domains.
 
 ### Changelog
 
+**2.0.0**
+- Add-on CSS code complete refactoring.
+- Support for the new GitHub design released in 2020 ([Issue #8](https://github.com/fabiocchetti/wide-github/issues/8), [Issue #10](https://github.com/fabiocchetti/wide-github/issues/10) and [Issue #11](https://github.com/fabiocchetti/wide-github/issues/11)).
+- Initial support for GitHub Enterprise ([Issue #5](https://github.com/fabiocchetti/wide-github/issues/5), thanks [@henrik242](https://github.com/henrik242)).
+- Instead of using breakpoints, Wide GitHub now makes the page content always fit your screen width. No matter the display size ([Issue #9](https://github.com/fabiocchetti/wide-github/issues/9)).
+
 **1.2.0**
-- Native support for extra large displays ([Issue #4](https://github.com/fabiocchetti/widegithub/issues/4)).
+- Native support for extra large displays ([Issue #4](https://github.com/fabiocchetti/wide-github/issues/4)).
 - Several improvements to the CSS code.
 
 **1.1.0**
-- Support for private GitHub domains ([Issue #1](https://github.com/fabiocchetti/widegithub/issues/1)).
-- [Project views](https://help.github.com/en/articles/about-project-boards) have been excluded. WideGitHub should not be enabled there ([Issue #2](https://github.com/fabiocchetti/widegithub/issues/2)).
-- Fixed bigger-than-expected images in user detail view. ([Issue #3](https://github.com/fabiocchetti/widegithub/issues/3)).
+- Support for private GitHub domains ([Issue #1](https://github.com/fabiocchetti/wide-github/issues/1)).
+- [Project views](https://help.github.com/en/articles/about-project-boards) have been excluded. Wide GitHub should not be enabled there ([Issue #2](https://github.com/fabiocchetti/wide-github/issues/2)).
+- Fixed bigger-than-expected images in user detail view. ([Issue #3](https://github.com/fabiocchetti/wide-github/issues/3)).
 
 **1.0.1**
 - Minor changes.
