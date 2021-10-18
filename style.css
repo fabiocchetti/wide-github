@@ -1,9 +1,9 @@
-#js-repo-pjax-container .repository-content .discussion-timeline,
-.repository-content .capped-card-content {
+body:not(.is-github-wide-disabled) #js-repo-pjax-container .repository-content .discussion-timeline,
+body:not(.is-github-wide-disabled) .repository-content .capped-card-content {
   width: 100% !important;
 }
 
-.application-main .container {
+body:not(.is-github-wide-disabled) .application-main .container {
   margin-left: 0 !important;
   min-width: 980px;
   padding-left: 16px !important;
@@ -11,43 +11,48 @@
   width: auto !important;
 }
 
-.application-main .container-lg,
-.footer.container-lg {
-  margin-left:0!important;
-  max-width:none!important;
+body:not(.is-github-wide-disabled) .application-main .container-lg,
+body:not(.is-github-wide-disabled) .footer.container-lg {
+  margin-left: 0 !important;
+  max-width: none !important;
 }
 
-.application-main .container-xl,
-.gist-content-wrapper .container-lg {
-  max-width:none!important;
+body:not(.is-github-wide-disabled) .application-main .container-xl,
+body:not(.is-github-wide-disabled) .gist-content-wrapper .container-lg {
+  max-width: none !important;
 }
 
-.gist-content-wrapper .container {
+body:not(.is-github-wide-disabled) .gist-content-wrapper .container {
   margin-left: 20px !important;
   margin-right: 20px !important;
   min-width: 980px;
   width: auto !important;
 }
 
-.gist-content-wrapper .container-lg .h-card {
+body:not(.is-github-wide-disabled) .gist-content-wrapper .container-lg .h-card {
   width: 252px !important;
 }
 
-.pr-toolbar {
+body:not(.is-github-wide-disabled) .pr-toolbar {
   margin-left: -16px !important;
   margin-right: -16px !important;
   padding-left: 16px !important;
   padding-right: 16px !important;
 }
 
-.repository-content .inline-comments .comment-holder,
-.repository-content .inline-comments .inline-comment-form-container,
-.repository-content .inline-comments .inline-comment-form,
-.repository-content #all_commit_comments .commit-comments-heading,
-.repository-content #all_commit_comments .comment-holder {
+body:not(.is-github-wide-disabled) .repository-content .inline-comments .comment-holder,
+body:not(.is-github-wide-disabled) .repository-content .inline-comments .inline-comment-form-container,
+body:not(.is-github-wide-disabled) .repository-content #all_commit_comments .commit-comments-heading,
+body:not(.is-github-wide-disabled) .repository-content #all_commit_comments .comment-holder {
   max-width: inherit !important;
 }
 
-.repository-content .timeline-new-comment {
+body:not(.is-github-wide-disabled) .repository-content .timeline-new-comment {
   max-width: 100% !important;
+}
+
+@media screen and (min-width: 767px) {
+  body:not(.is-github-wide-disabled) .repository-content .inline-comments .inline-comment-form {
+    max-width: calc(100vw - 96px) !important;
+  }
 }
