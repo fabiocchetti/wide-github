@@ -1,6 +1,6 @@
 ![wide github logo](icons/Wide-GitHub_LogoExpanded.png?raw=true)
 
-[![Wide Github on addons.mozilla.org](https://addons.cdn.mozilla.net/static/img/addons-buttons/AMO-button_2.png)](https://addons.mozilla.org/en-US/firefox/addon/widegithub)
+[Download add-on on Mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/widegithub)
 
 # Wide GitHub
 
