@@ -33,11 +33,23 @@ body:not(.is-github-wide-disabled) .gist-content-wrapper .container-lg .h-card {
   width: 252px !important;
 }
 
+body:not(.is-github-wide-disabled) .Layout-main div[data-selector="repos-split-pane-content"] {
+  max-width: none !important;
+}
+
+body:not(.is-github-wide-disabled) .Layout-main div[style="--sticky-pane-height: 100vh;"] > div[class^="Box-sc-"] > div[class^="Box-sc-"] > div[class^="Box-sc-"] > div[class^="Box-sc-"]:nth-child(2) {
+  max-width: none !important;
+}
+
 body:not(.is-github-wide-disabled) .pr-toolbar {
   margin-left: -16px !important;
   margin-right: -16px !important;
   padding-left: 16px !important;
   padding-right: 16px !important;
+}
+
+body:not(.is-github-wide-disabled) .react-repos-overview-margin {
+  margin-right: 0 !important;
 }
 
 body:not(.is-github-wide-disabled) .repository-content .inline-comments .comment-holder,
