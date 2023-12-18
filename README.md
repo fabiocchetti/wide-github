@@ -11,6 +11,9 @@ It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private Gi
 
 ### Changelog
 
+**2.2.0**
+- Support new UI and the updated code panel ([Issue #19](https://github.com/fabiocchetti/wide-github/issues/19)).
+
 **2.1.0**
 - Added toggle button on the Firefox toolbar, so that Wide GitHub can now be enabled or disabled on specific pages ([Issue #7](https://github.com/fabiocchetti/wide-github/issues/7) and [Issue #15](https://github.com/fabiocchetti/wide-github/issues/15)).
 - Fixed an issue that caused the comment dialog box on pull requests to be wider than the screen in some circumstances ([Issue #16](https://github.com/fabiocchetti/wide-github/issues/16)).
