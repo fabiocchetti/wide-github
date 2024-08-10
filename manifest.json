@@ -2,9 +2,9 @@
 
   "manifest_version": 2,
   "name": "Wide GitHub",
-  "version": "2.2.0",
+  "version": "2.3.0",
 
-  "description": "Makes GitHub layout wide on Mozilla Firefox.",
+  "description": "Makes GitHub's layout wide on Mozilla Firefox.",
 
   "homepage_url": "https://github.com/fabiocchetti/wide-github",
   "icons": {
