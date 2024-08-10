@@ -11,6 +11,10 @@ It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private Gi
 
 ### Changelog
 
+**2.3.0**
+- Improved support for the "Blame" view ([Issue #21](https://github.com/fabiocchetti/wide-github/issues/21)).
+- Minor fixes and general CSS tweaks.
+
 **2.2.0**
 - Support new UI and the updated code panel ([Issue #19](https://github.com/fabiocchetti/wide-github/issues/19)).
 

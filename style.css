@@ -1,19 +1,15 @@
-body:not(.is-github-wide-disabled) #js-repo-pjax-container .repository-content .discussion-timeline,
-body:not(.is-github-wide-disabled) .repository-content .capped-card-content {
-  width: 100% !important;
-}
-
-body:not(.is-github-wide-disabled) .application-main .container {
-  margin-left: 0 !important;
-  min-width: 980px;
-  padding-left: 16px !important;
-  padding-right: 16px !important;
-  width: auto !important;
-}
-
 body:not(.is-github-wide-disabled) .application-main .container-lg,
 body:not(.is-github-wide-disabled) .footer.container-lg {
   margin-left: 0 !important;
+  max-width: none !important;
+}
+
+body:not(.is-github-wide-disabled) .application-main .container-lg {
+  margin-left: 0 !important;
+  max-width: none !important;
+}
+
+body:not(.is-github-wide-disabled) .application-main .container-xl {
   max-width: none !important;
 }
 
@@ -22,23 +18,31 @@ body:not(.is-github-wide-disabled) .gist-content-wrapper .container-lg {
   max-width: none !important;
 }
 
-body:not(.is-github-wide-disabled) .gist-content-wrapper .container {
-  margin-left: 20px !important;
-  margin-right: 20px !important;
-  min-width: 980px;
-  width: auto !important;
+body:not(.is-github-wide-disabled) .gist-content-wrapper .container-lg .h-card {
+  width: 250px !important;
 }
 
-body:not(.is-github-wide-disabled) .gist-content-wrapper .container-lg .h-card {
-  width: 252px !important;
+body:not(.is-github-wide-disabled) #js-repo-pjax-container .js-issue-row .text-right {
+  max-width: 300px !important;
+}
+
+body:not(.is-github-wide-disabled) .repository-content .capped-card-content,
+body:not(.is-github-wide-disabled) #js-repo-pjax-container .repository-content .discussion-timeline {
+  width: 100% !important;
+}
+
+body:not(.is-github-wide-disabled) #js-repo-pjax-container div[style="--sticky-pane-height:100vh"],
+body:not(.is-github-wide-disabled) #js-repo-pjax-container div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-']:first-child {
+  max-width: none;
 }
 
 body:not(.is-github-wide-disabled) .Layout-main div[data-selector="repos-split-pane-content"] {
   max-width: none !important;
 }
 
-body:not(.is-github-wide-disabled) .Layout-main div[style="--sticky-pane-height: 100vh;"] > div[class^="Box-sc-"] > div[class^="Box-sc-"] > div[class^="Box-sc-"] > div[class^="Box-sc-"]:nth-child(2) {
-  max-width: none !important;
+body:not(.is-github-wide-disabled) .Layout-main div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2),
+body:not(.is-github-wide-disabled) .Layout-main div[style="--sticky-pane-height:100vh"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) {
+  max-width: none;
 }
 
 body:not(.is-github-wide-disabled) .pr-toolbar {
@@ -61,10 +65,4 @@ body:not(.is-github-wide-disabled) .repository-content #all_commit_comments .com
 
 body:not(.is-github-wide-disabled) .repository-content .timeline-new-comment {
   max-width: 100% !important;
-}
-
-@media screen and (min-width: 767px) {
-  body:not(.is-github-wide-disabled) .repository-content .inline-comments .inline-comment-form {
-    max-width: calc(100vw - 96px) !important;
-  }
 }
