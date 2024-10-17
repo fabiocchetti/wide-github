@@ -45,6 +45,16 @@ body:not(.is-github-wide-disabled) .Layout-main div[style="--sticky-pane-height:
   max-width: none;
 }
 
+/* Issue list */
+body:not(.is-github-wide-disabled) main div[data-target="react-app.reactRoot"] div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) > div[class^='Box-sc-'] {
+  max-width: none;
+}
+
+/* Issue detail */
+body:not(.is-github-wide-disabled) main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] {
+  max-width: none;
+}
+
 body:not(.is-github-wide-disabled) .pr-toolbar {
   margin-left: -16px !important;
   margin-right: -16px !important;
