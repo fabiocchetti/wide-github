@@ -55,6 +55,11 @@ body:not(.is-github-wide-disabled) main div[data-target="react-app.reactRoot"] >
   max-width: none;
 }
 
+/* Issue scrolled header */
+body:not(.is-github-wide-disabled) main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div.js-notification-shelf-offset-top > div[class^='Box-sc-'] {
+  max-width: none;
+}
+
 body:not(.is-github-wide-disabled) .pr-toolbar {
   margin-left: -16px !important;
   margin-right: -16px !important;
