@@ -11,6 +11,9 @@ It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private Gi
 
 ### Changelog
 
+**2.4.0**
+- Support [evolved GitHub issues](https://github.blog/changelog/2024-10-01-evolving-github-issues-public-beta/) ([Issue #25](https://github.com/fabiocchetti/wide-github/issues/25), thanks @AetherUnbound.
+
 **2.3.0**
 - Improved support for the "Blame" view ([Issue #21](https://github.com/fabiocchetti/wide-github/issues/21)).
 - Minor fixes and general CSS tweaks.
@@ -25,7 +28,7 @@ It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private Gi
 
 **2.0.0**
 - Add-on CSS code complete refactoring.
-- Support for the new GitHub design released in 2020 ([Issue #8](https://github.com/fabiocchetti/wide-github/issues/8), [Issue #10](https://github.com/fabiocchetti/wide-github/issues/10) and [Issue #11](https://github.com/fabiocchetti/wide-github/issues/11)).
+- Support the new GitHub design released in 2020 ([Issue #8](https://github.com/fabiocchetti/wide-github/issues/8), [Issue #10](https://github.com/fabiocchetti/wide-github/issues/10) and [Issue #11](https://github.com/fabiocchetti/wide-github/issues/11)).
 - Initial support for GitHub Enterprise ([Issue #5](https://github.com/fabiocchetti/wide-github/issues/5), thanks [@henrik242](https://github.com/henrik242)).
 - Instead of using breakpoints, Wide GitHub now makes the page content always fit your screen width. No matter the display size ([Issue #9](https://github.com/fabiocchetti/wide-github/issues/9)).
 
