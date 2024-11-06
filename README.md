@@ -12,7 +12,7 @@ It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private Gi
 ### Changelog
 
 **2.4.0**
-- Support [evolved GitHub issues](https://github.blog/changelog/2024-10-01-evolving-github-issues-public-beta/) ([Issue #25](https://github.com/fabiocchetti/wide-github/issues/25)), thanks to [@AetherUnbound](https://github.com/AetherUnbound).
+- Support [evolved GitHub issues](https://github.blog/changelog/2024-10-01-evolving-github-issues-public-beta/) ([Issue #25](https://github.com/fabiocchetti/wide-github/issues/25), thanks to [@AetherUnbound](https://github.com/AetherUnbound)).
 
 **2.3.0**
 - Improved support for the "Blame" view ([Issue #21](https://github.com/fabiocchetti/wide-github/issues/21)).
