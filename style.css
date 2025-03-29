@@ -47,7 +47,11 @@ body:not(.is-github-wide-disabled) .Layout-main div[style="--sticky-pane-height:
 
 /* Issue list */
 body:not(.is-github-wide-disabled) main div[data-target="react-app.reactRoot"] div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) > div[class^='Box-sc-'] {
-  max-width: none;
+  max-width: none !important;
+}
+
+body:not(.is-github-wide-disabled) main div[class*="prc-PageLayout-Content--"] > div[class^="Box-sc-"] {
+	max-width: none;
 }
 
 /* Issue detail */
