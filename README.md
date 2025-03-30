@@ -11,6 +11,9 @@ It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private Gi
 
 ### Changelog
 
+**2.5.0**
+- Support GitHub Gist ([PR #27](https://github.com/fabiocchetti/wide-github/pull/27)—closes [issue #23](https://github.com/fabiocchetti/wide-github/issues/23), thanks to [@mxgic1337](https://github.com/mxgic1337)).
+
 **2.4.0**
 - Support [evolved GitHub issues](https://github.blog/changelog/2024-10-01-evolving-github-issues-public-beta/) ([Issue #25](https://github.com/fabiocchetti/wide-github/issues/25), thanks to [@AetherUnbound](https://github.com/AetherUnbound)).
 
