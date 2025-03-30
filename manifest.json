@@ -19,7 +19,7 @@
 
   "content_scripts": [
     {
-      "matches": ["*://github.com/*"],
+      "matches": ["*://github.com/*", "*://gist.github.com/*"],
       "include_globs": ["*://*github*.com/*", "*://*github*.io/*"],
       "exclude_globs": ["*://*github*.com/*/projects/*", "*://*github*.io/*/projects/*"],
       "css": ["style.css"],
