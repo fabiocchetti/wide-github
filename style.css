@@ -50,6 +50,10 @@ body:not(.is-github-wide-disabled) main div[data-target="react-app.reactRoot"] d
   max-width: none;
 }
 
+body:not(.is-github-wide-disabled) main div[class*="prc-PageLayout-Content--"] > div[class^="Box-sc-"] {
+  max-width: none;
+}
+
 /* Issue detail */
 body:not(.is-github-wide-disabled) main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] {
   max-width: none;
