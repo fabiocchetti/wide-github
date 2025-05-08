@@ -1,0 +1,129 @@
+body.is-wide-github-enabled .application-main .container-lg,
+body.is-wide-github-enabled .footer.container-lg {
+  margin-left: 0 !important;
+  max-width: none !important;
+}
+
+body.is-wide-github-enabled .application-main .container-lg {
+  margin-left: 0 !important;
+  max-width: none !important;
+}
+
+body.is-wide-github-enabled .application-main .container-xl {
+  max-width: none !important;
+}
+
+body.is-wide-github-enabled .application-main .container-xl,
+body.is-wide-github-enabled .gist-content-wrapper .container-lg {
+  max-width: none !important;
+}
+
+body.is-wide-github-enabled .gist-content-wrapper .container-lg .h-card {
+  width: 250px !important;
+}
+
+body.is-wide-github-enabled #js-repo-pjax-container .js-issue-row .text-right {
+  max-width: 300px !important;
+}
+
+body.is-wide-github-enabled .repository-content .capped-card-content,
+body.is-wide-github-enabled #js-repo-pjax-container .repository-content .discussion-timeline {
+  width: 100% !important;
+}
+
+body.is-wide-github-enabled #js-repo-pjax-container div[style="--sticky-pane-height:100vh"],
+body.is-wide-github-enabled #js-repo-pjax-container div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-']:first-child {
+  max-width: none;
+}
+
+body.is-wide-github-enabled .Layout-main div[data-selector="repos-split-pane-content"] {
+  max-width: none !important;
+}
+
+body.is-wide-github-enabled .Layout-main div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2),
+body.is-wide-github-enabled .Layout-main div[style="--sticky-pane-height:100vh"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) {
+  max-width: none;
+}
+
+/* Issue list */
+body.is-wide-github-enabled main div[data-target="react-app.reactRoot"] div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) > div[class^='Box-sc-'] {
+  max-width: none;
+}
+
+body.is-wide-github-enabled main div[class*="prc-PageLayout-Content--"] > div[class^="Box-sc-"] {
+  max-width: none;
+}
+
+/* Issue detail */
+body.is-wide-github-enabled main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] {
+  max-width: none;
+}
+
+/* Issue scrolled header */
+body.is-wide-github-enabled main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div.js-notification-shelf-offset-top > div[class^='Box-sc-'] {
+  max-width: none;
+}
+
+body.is-wide-github-enabled .pr-toolbar {
+  margin-left: -16px !important;
+  margin-right: -16px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+body.is-wide-github-enabled .react-repos-overview-margin {
+  margin-right: 0 !important;
+}
+
+body.is-wide-github-enabled .repository-content .inline-comments .comment-holder,
+body.is-wide-github-enabled .repository-content .inline-comments .inline-comment-form-container,
+body.is-wide-github-enabled .repository-content #all_commit_comments .commit-comments-heading,
+body.is-wide-github-enabled .repository-content #all_commit_comments .comment-holder {
+  max-width: inherit !important;
+}
+
+body.is-wide-github-enabled .repository-content .timeline-new-comment {
+  max-width: 100% !important;
+}
+
+.container {
+  max-width: 100% !important;
+  padding: 0 20px !important;
+}
+
+.repository-content {
+  max-width: 100% !important;
+}
+
+.Layout {
+  max-width: 100% !important;
+}
+
+.Layout-main {
+  max-width: 100% !important;
+}
+
+.wide-github-enabled .container {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.wide-github-enabled .repository-content {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.wide-github-enabled .gist-content {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.wide-github-enabled .Layout {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.wide-github-enabled .Layout-main {
+  width: 100% !important;
+  max-width: none !important;
+}

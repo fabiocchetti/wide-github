@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .popup-title {
+      margin: 0;
+    }
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .toggle-label {
+      font-size: 14px;
+      color: #24292e;
+    }
+    .domain-label {
+      font-size: 14px;
+      color: #24292e;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 22px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 22px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    input:checked + .slider:before {
+      transform: translateX(18px);
+    }
+    .domains-section {
+      margin-top: 6px;
+      padding-top: 6px;
+    }
+    .domain-input-container {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    #domain-input {
+      flex: 1;
+      padding: 5px;
+      margin-right: 5px;
+      border: 1px solid #d1d5da;
+      border-radius: 3px;
+    }
+    #domain-input.error {
+      border-color: #d73a49;
+    }
+    #add-domain-btn {
+      padding: 6px 12px;
+      background-color: #2ea44f;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    #add-domain-btn:hover {
+      background-color: #2c974b;
+    }
+    #add-domain-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    #domain-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .domain-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px;
+      border-bottom: 1px solid #e1e4e8;
+    }
+    .domain-item:last-child {
+      border-bottom: none;
+    }
+    .delete-btn {
+      background-color: #d73a49;
+      color: white;
+      border: none;
+      padding: 2px 6px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 12px;
+      line-height: 1;
+    }
+    .delete-btn:hover {
+      background-color: #cb2431;
+    }
+    .error-message {
+      color: #d73a49;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h3 class="popup-title">Wide GitHub</h3>
+  <hr>
+  <div class="toggle-container">
+    <span class="toggle-label">Wide Layout</span>
+    <label class="switch">
+      <input type="checkbox" id="wide-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+  
+  <div class="domains-section">
+    <span class="domain-label">Custom GitHub Domains</span>
+    <div class="domain-input-container">
+      <input type="text" id="domain-input" placeholder="Enter URL (e.g., github.example.com)">
+      <button id="add-domain-btn">Add</button>
+    </div>
+    <div class="error-message" id="domain-error"></div>
+    <ul id="domain-list"></ul>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html> 
