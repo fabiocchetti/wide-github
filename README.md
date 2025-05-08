@@ -1,4 +1,4 @@
-![wide github logo](icons/Wide-GitHub_LogoExpanded.png?raw=true)
+![wide github logo](Wide-GitHub_Logo.png?raw=true)
 
 [Download add-on on Mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/widegithub)
 
