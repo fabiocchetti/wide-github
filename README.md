@@ -4,7 +4,7 @@
 
 # Wide GitHub
 
-A browser extension that makes GitHub's layout wide. Available for both Firefox and Chrome.
+A browser extension that makes GitHub's layout wide, also on custom TLDs. Available for both Firefox (and soon Chrome).
 
 ## Features
 
