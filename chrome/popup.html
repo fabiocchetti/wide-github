@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 15px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .toggle-label {
+      margin-left: 10px;
+      font-size: 14px;
+    }
+    .domains-section {
+      margin-top: 15px;
+    }
+    .domains-section h3 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+    }
+    .domain-input-container {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    #domain-input {
+      flex: 1;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    #domain-input.error {
+      border-color: #ff4444;
+    }
+    #add-domain-btn {
+      margin-left: 5px;
+      padding: 5px 10px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    #add-domain-btn:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+    }
+    #domain-error {
+      color: #ff4444;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+    #domain-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .domain-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px;
+      border-bottom: 1px solid #eee;
+    }
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #ff4444;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 0 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="toggle-container">
+    <label class="switch">
+      <input type="checkbox" id="wide-toggle">
+      <span class="slider round"></span>
+    </label>
+    <span class="toggle-label">Wide Layout</span>
+  </div>
+
+  <div class="domains-section">
+    <h3>GitHub Domains</h3>
+    <div class="domain-input-container">
+      <input type="text" id="domain-input" placeholder="Add domain (e.g., github.com)">
+      <button id="add-domain-btn">Add</button>
+    </div>
+    <div id="domain-error"></div>
+    <ul id="domain-list"></ul>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

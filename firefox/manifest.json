@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Wide GitHub",
+  "version": "3.0.0",
+  "description": "Makes GitHub's layout wide on Mozilla Firefox.",
+  "homepage_url": "https://github.com/fabiocchetti/wide-github",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{72742915-c83b-4485-9023-b55dc5a1e730}",
+      "strict_min_version": "109.0"
+    }
+  },
+  "icons": {
+    "48": "icons/wide-github-48.png",
+    "96": "icons/wide-github-96.png"
+  },
+  "action": {
+    "default_icon": "icons/wide-github-96.png",
+    "default_title": "Wide GitHub",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://github.com/*",
+    "https://gist.github.com/*",
+    "https://*.github.com/*",
+    "https://*.github.io/*",
+    "*://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*",
+        "https://gist.github.com/*",
+        "https://*.github.com/*",
+        "https://*.github.io/*",
+        "*://*/*"
+      ],
+      "css": ["style.css"],
+      "js": ["wide-github-handler.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  }
+}

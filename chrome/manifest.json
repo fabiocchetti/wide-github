@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Wide GitHub",
+  "version": "2.5.0",
+  "description": "Makes GitHub's layout wide on Google Chrome.",
+  "homepage_url": "https://github.com/fabiocchetti/wide-github",
+  "icons": {
+    "16": "icons/wide-github-16.png",
+    "48": "icons/wide-github-48.png",
+    "128": "icons/wide-github-128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/wide-github-16.png",
+      "48": "icons/wide-github-48.png",
+      "128": "icons/wide-github-128.png"
+    },
+    "default_title": "Wide GitHub",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://github.com/*",
+    "https://gist.github.com/*",
+    "https://*.github.com/*",
+    "https://*.github.io/*",
+    "*://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*",
+        "https://gist.github.com/*",
+        "https://*.github.com/*",
+        "https://*.github.io/*",
+        "*://*/*"
+      ],
+      "css": ["style.css"],
+      "js": ["wide-github-handler.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

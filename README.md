@@ -4,12 +4,84 @@
 
 # Wide GitHub
 
-Wide GitHub is a simple add-on that makes the GitHub layout **wide** on Mozilla Firefox.
-Now you can really focus on your code.
+A browser extension that makes GitHub's layout wide, also on custom TLDs. Available for both Firefox (and soon Chrome).
 
-It works on Mozilla Firefox 57 (Quantum) or superior. Compatible with private GitHub (and some GitHub Enterprise) domains.
+## Features
+
+- Makes GitHub's layout wide
+- Supports custom domains
+- Toggle on/off with a single click
+- Syncs settings across devices (Firefox Sync / Chrome Sync)
+
+## Installation
+
+### Firefox
+1. Visit [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/wide-github/)
+2. Click "Add to Firefox"
+3. Confirm the installation
+
+### Chrome
+_Currently WIP_ 
+
+## Usage
+
+1. Click the extension icon in your browser's toolbar
+2. Toggle the switch to enable/disable the wide layout
+3. Add custom domains in the popup if needed
+
+## Custom Domains
+
+You can add custom domains where you want the wide layout to be applied:
+
+1. Click the extension icon
+2. Enter the domain in the input field (e.g., `github.com`)
+3. Click "Add" or press Enter
+
+The extension will automatically handle:
+- Subdomains (e.g., `docs.github.com`)
+- WWW redirects (e.g., `www.github.com`)
+- Protocol changes (http/https)
+
+## Development
+
+The extension is available in ~~two~~ one version:
+
+- `firefox/`: Firefox version
+- ~~`chrome/`: Chrome version~~ _Work in Progress_
+
+Both versions share the same core functionality but are adapted to their respective browser's APIs.
+
+### Building
+
+1. Clone the repository
+2. Navigate to either `firefox/` or `chrome/` directory
+3. Make your changes
+4. Test the extension in your browser
+
+### Testing
+
+#### Firefox
+1. Go to `about:debugging`
+2. Click "This Firefox"
+3. Click "Load Temporary Add-on"
+4. Select any file from the `firefox/` directory
+
+#### Chrome
+1. Go to `chrome://extensions`
+2. Enable "Developer mode"
+3. Click "Load unpacked"
+4. Select the `chrome/` directory
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ### Changelog
+
+**3.0.0**
+- Extension re-built from the ground up with native Manifest V3 support.
+- Added support to custom TLDs ([Issue #12](https://github.com/fabiocchetti/wide-github/issues/12)).
+- Introduced settings panel to easily enable and disable the wide layout, and handle custom TLDs.
 
 **2.5.0**
 - Support GitHub Gist ([PR #27](https://github.com/fabiocchetti/wide-github/pull/27)—closes [issue #23](https://github.com/fabiocchetti/wide-github/issues/23), thanks to [@mxgic1337](https://github.com/mxgic1337)).
