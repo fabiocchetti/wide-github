@@ -81,4 +81,4 @@ new MutationObserver(() => {
     lastUrl = url;
     updateWideLayout();
   }
-}).observe(document, { subtree: true, childList: true }); 
+}).observe(document, { subtree: true, childList: true });

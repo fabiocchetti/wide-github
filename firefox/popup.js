@@ -155,4 +155,4 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initial validation
   validateDomain();
-}); 
+});
