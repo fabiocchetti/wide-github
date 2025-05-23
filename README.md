@@ -1,5 +1,8 @@
 <img src="assets/Wide-GitHub_Logo.png?raw=true" alt="Wide GitHub Logo" width="583" height="300" />
-[![Download add-on on Mozilla.org](assets/firefox-get-the-addon.png)](https://addons.mozilla.org/en-US/firefox/addon/widegithub)
+
+<a href="https://addons.mozilla.org/en-US/firefox/addon/widegithub">
+  <img src="assets/firefox-get-the-addon.png" alt="Download add-on on Mozilla.org" width="129" height="45" />
+</a>
 
 # Wide GitHub
 
