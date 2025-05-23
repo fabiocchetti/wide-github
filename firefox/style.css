@@ -1,88 +1,103 @@
-body.is-wide-github-enabled .application-main .container-lg,
-body.is-wide-github-enabled .footer.container-lg {
+html.is-wide-github-enabled .application-main .container-lg,
+html.is-wide-github-enabled .footer.container-lg {
   margin-left: 0 !important;
   max-width: none !important;
 }
 
-body.is-wide-github-enabled .application-main .container-lg {
+html.is-wide-github-enabled .application-main .container-lg {
   margin-left: 0 !important;
   max-width: none !important;
 }
 
-body.is-wide-github-enabled .application-main .container-xl {
+html.is-wide-github-enabled .application-main .container-xl {
   max-width: none !important;
 }
 
-body.is-wide-github-enabled .application-main .container-xl,
-body.is-wide-github-enabled .gist-content-wrapper .container-lg {
+html.is-wide-github-enabled .application-main .container-xl,
+html.is-wide-github-enabled .gist-content-wrapper .container-lg {
   max-width: none !important;
 }
 
-body.is-wide-github-enabled .gist-content-wrapper .container-lg .h-card {
+html.is-wide-github-enabled .gist-content-wrapper .container-lg .h-card {
   width: 250px !important;
 }
 
-body.is-wide-github-enabled #js-repo-pjax-container .js-issue-row .text-right {
+html.is-wide-github-enabled #js-repo-pjax-container .js-issue-row .text-right {
   max-width: 300px !important;
 }
 
-body.is-wide-github-enabled .repository-content .capped-card-content,
-body.is-wide-github-enabled #js-repo-pjax-container .repository-content .discussion-timeline {
+html.is-wide-github-enabled .repository-content .capped-card-content,
+html.is-wide-github-enabled #js-repo-pjax-container .repository-content .discussion-timeline {
   width: 100% !important;
 }
 
-body.is-wide-github-enabled #js-repo-pjax-container div[style="--sticky-pane-height:100vh"],
-body.is-wide-github-enabled #js-repo-pjax-container div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-']:first-child {
+html.is-wide-github-enabled #js-repo-pjax-container div[style="--sticky-pane-height:100vh"],
+html.is-wide-github-enabled #js-repo-pjax-container div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-']:first-child {
   max-width: none;
 }
 
-body.is-wide-github-enabled .Layout-main div[data-selector="repos-split-pane-content"] {
+html.is-wide-github-enabled .Layout-main div[data-selector="repos-split-pane-content"] {
   max-width: none !important;
 }
 
-body.is-wide-github-enabled .Layout-main div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2),
-body.is-wide-github-enabled .Layout-main div[style="--sticky-pane-height:100vh"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) {
+html.is-wide-github-enabled .Layout-main div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2),
+html.is-wide-github-enabled .Layout-main div[style="--sticky-pane-height:100vh"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) {
   max-width: none;
 }
 
 /* Issue list */
-body.is-wide-github-enabled main div[data-target="react-app.reactRoot"] div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) > div[class^='Box-sc-'] {
+html.is-wide-github-enabled main div[data-target="react-app.reactRoot"] div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) > div[class^='Box-sc-'] {
   max-width: none;
 }
 
-body.is-wide-github-enabled main div[class*="prc-PageLayout-Content--"] > div[class^="Box-sc-"] {
+/* Issues list page */
+html.is-wide-github-enabled .application-main div[data-target="react-app.reactRoot"] div[class^="prc-PageLayout-Content-"] > div[class^="Box-sc-"] {
+  max-width: none !important;
+}
+
+html.is-wide-github-enabled main div[class*="prc-PageLayout-Content--"] > div[class^="Box-sc-"] {
   max-width: none;
 }
 
 /* Issue detail */
-body.is-wide-github-enabled main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] {
+html.is-wide-github-enabled main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] {
   max-width: none;
+}
+
+/* Issue page */
+html.is-wide-github-enabled .application-main div[data-target="react-app.reactRoot"] > div[class^="Box-sc-"] > div[class^="Box-sc-"] > div[class^="Box-sc-"] > div[class^="Box-sc-"] {
+  max-width: none !important;
+}
+
+/* New issue page */
+html.is-wide-github-enabled .application-main div[data-target="react-app.reactRoot"] div[class^="IssueCreatePage-module__createPaneContainer-"] {
+  max-width: none !important;
 }
 
 /* Issue scrolled header */
-body.is-wide-github-enabled main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div.js-notification-shelf-offset-top > div[class^='Box-sc-'] {
+html.is-wide-github-enabled main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div.js-notification-shelf-offset-top > div[class^='Box-sc-'] {
   max-width: none;
 }
 
-body.is-wide-github-enabled .pr-toolbar {
+html.is-wide-github-enabled .pr-toolbar {
   margin-left: -16px !important;
   margin-right: -16px !important;
   padding-left: 16px !important;
   padding-right: 16px !important;
 }
 
-body.is-wide-github-enabled .react-repos-overview-margin {
+html.is-wide-github-enabled .react-repos-overview-margin {
   margin-right: 0 !important;
 }
 
-body.is-wide-github-enabled .repository-content .inline-comments .comment-holder,
-body.is-wide-github-enabled .repository-content .inline-comments .inline-comment-form-container,
-body.is-wide-github-enabled .repository-content #all_commit_comments .commit-comments-heading,
-body.is-wide-github-enabled .repository-content #all_commit_comments .comment-holder {
+html.is-wide-github-enabled .repository-content .inline-comments .comment-holder,
+html.is-wide-github-enabled .repository-content .inline-comments .inline-comment-form-container,
+html.is-wide-github-enabled .repository-content #all_commit_comments .commit-comments-heading,
+html.is-wide-github-enabled .repository-content #all_commit_comments .comment-holder {
   max-width: inherit !important;
 }
 
-body.is-wide-github-enabled .repository-content .timeline-new-comment {
+html.is-wide-github-enabled .repository-content .timeline-new-comment {
   max-width: 100% !important;
 }
 

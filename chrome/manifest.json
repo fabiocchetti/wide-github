@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Wide GitHub",
-  "version": "2.5.0",
+  "version": "3.1.0",
   "description": "Makes GitHub's layout wide on Google Chrome.",
   "homepage_url": "https://github.com/fabiocchetti/wide-github",
   "icons": {

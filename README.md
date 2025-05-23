@@ -1,17 +1,19 @@
-![wide github logo](Wide-GitHub_Logo.png?raw=true)
-
-[Download add-on on Mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/widegithub)
+<img src="assets/Wide-GitHub_Logo.png?raw=true" alt="Wide GitHub Logo" width="583" height="300" />
+[![Download add-on on Mozilla.org](assets/firefox-get-the-addon.png)](https://addons.mozilla.org/en-US/firefox/addon/widegithub)
 
 # Wide GitHub
 
-A browser extension that makes GitHub's layout wide, also on custom TLDs. Available for both Firefox (and soon Chrome).
+A browser extension that makes GitHub’s layout wide, enhancing readability, reducing vertical scrolling, and improving accessibility.
+
+It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 109+ required for custom TLD support).
 
 ## Features
 
-- Makes GitHub's layout wide
+- Makes GitHub's layout wide (and now supports the new React layout 2025)
 - Supports custom domains
 - Toggle on/off with a single click
 - Syncs settings across devices (Firefox Sync / Chrome Sync)
+- Supports SPA navigation and tab switches
 
 ## Installation
 
@@ -77,6 +79,12 @@ Both versions share the same core functionality but are adapted to their respect
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ### Changelog
+
+**3.1.0**
+- Improved CSS compatibility with the new GitHub layout.
+- Fixed flickering issue when switching between tabs.
+- Improved URL and page navigation.
+- General CSS refactoring and JS performance optimization.
 
 **3.0.0**
 - Extension re-built from the ground up with native Manifest V3 support.
