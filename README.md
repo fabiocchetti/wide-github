@@ -21,7 +21,7 @@ It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 1
 ## Installation
 
 ### Firefox
-1. Visit [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/wide-github/)
+1. Visit [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/widegithub/)
 2. Click "Add to Firefox"
 3. Confirm the installation
 
