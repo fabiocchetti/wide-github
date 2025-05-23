@@ -9,7 +9,7 @@ It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 1
 
 ## Features
 
-- Makes GitHub's layout wide (and now supports the new React layout 2025)
+- Makes GitHub's layout wide
 - Supports custom domains
 - Toggle on/off with a single click
 - Syncs settings across devices (Firefox Sync / Chrome Sync)
