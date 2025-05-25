@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Wide GitHub",
-  "version": "3.1.0",
-  "description": "Makes GitHub's layout wide on Mozilla Firefox.",
+  "version": "3.2.0",
+  "description": "Makes GitHub wide on Mozilla Firefox. Supports GitHub, private Gists, GitHub Enterprise, and custom domains (TLDs).",
   "homepage_url": "https://github.com/fabiocchetti/wide-github",
   "browser_specific_settings": {
     "gecko": {
@@ -40,7 +40,7 @@
         "*://*/*"
       ],
       "css": ["style.css"],
-      "js": ["wide-github-handler.js"],
+      "js": ["handler.js"],
       "run_at": "document_start"
     }
   ],

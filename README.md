@@ -6,17 +6,22 @@
 
 # Wide GitHub
 
-A browser extension that makes GitHub’s layout wide, enhancing readability, reducing vertical scrolling, and improving accessibility.
+**Wide GitHub** is a browser extension that makes GitHub’s layout wide, enhancing readability, reducing vertical scrolling, and improving accessibility.
 
-It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 109+ required for custom TLD support).
+It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 109+ and Chrome Manifest V3 supported).
+
+---
 
 ## Features
 
-- Makes GitHub's layout wide
-- Supports custom domains
-- Toggle on/off with a single click
-- Syncs settings across devices (Firefox Sync / Chrome Sync)
-- Supports SPA navigation and tab switches
+- Makes GitHub's layout wide and accessible.
+- Supports custom domains (e.g. GitHub Enterprise).
+- Toggle on/off with a single click.
+- Syncs settings across devices (Firefox Sync / Chrome Sync).
+- Handles SPA navigation and tab switches.
+- Easy preferences and URLs management via settings popup.
+
+---
 
 ## Installation
 
@@ -26,7 +31,12 @@ It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 1
 3. Confirm the installation
 
 ### Chrome
-_Currently WIP_ 
+1. Go to `chrome://extensions`
+2. Enable "Developer mode"
+3. Click "Load unpacked"
+4. Select the `chrome/` directory
+
+---
 
 ## Usage
 
@@ -34,12 +44,12 @@ _Currently WIP_
 2. Toggle the switch to enable/disable the wide layout
 3. Add custom domains in the popup if needed
 
-## Custom Domains
+### Custom Domains
 
 You can add custom domains where you want the wide layout to be applied:
 
 1. Click the extension icon
-2. Enter the domain in the input field (e.g., `github.com`)
+2. Enter the domain in the input field (e.g., `git.mycompany.com`)
 3. Click "Add" or press Enter
 
 The extension will automatically handle:
@@ -47,41 +57,71 @@ The extension will automatically handle:
 - WWW redirects (e.g., `www.github.com`)
 - Protocol changes (http/https)
 
+---
+
 ## Development
 
-The extension is available in ~~two~~ one version:
+The extension is available in two versions:
 
 - `firefox/`: Firefox version
-- ~~`chrome/`: Chrome version~~ _Work in Progress_
+- `chrome/`: Chrome version
 
 Both versions share the same core functionality but are adapted to their respective browser's APIs.
 
-### Building
+### Building & Testing
 
 1. Clone the repository
-2. Navigate to either `firefox/` or `chrome/` directory
+2. Navigate to either the `firefox/` or `chrome/` directory
 3. Make your changes
-4. Test the extension in your browser
-
-### Testing
 
 #### Firefox
-1. Go to `about:debugging`
-2. Click "This Firefox"
-3. Click "Load Temporary Add-on"
-4. Select any file from the `firefox/` directory
+- Follow the "Packaging" instructions below
+- Go to `about:debugging`
+- Click "This Firefox"
+- Click "Load Temporary Add-on"
+- Select the previously generated ZIP file
 
 #### Chrome
-1. Go to `chrome://extensions`
-2. Enable "Developer mode"
-3. Click "Load unpacked"
-4. Select the `chrome/` directory
+- Go to `chrome://extensions`
+- Enable "Developer mode"
+- Click "Load unpacked"
+- Select the `chrome/` directory
+
+---
+
+## Packaging
+
+To create a ZIP file exclude system files and unnecessary files like `.DS_Store`, `.git`, `.gitignore`, `.MACOSX`, and any development-only files.
+
+From inside the `chrome/` or `firefox/` directory, run:
+
+```sh
+zip -r ../wide-github.zip . -x '*.DS_Store' -x '*.git*' -x '*.MACOSX*' -x '*.md'
+```
+This will create a `wide-github.zip` in the parent directory, ready for use.
+
+---
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### Changelog
+---
+
+## Privacy Policy
+
+For details about how Wide GitHub handles your data and permissions, please see the [Privacy Policy](PRIVACY.md).
+
+---
+
+## Changelog
+
+**3.2.0**
+- Unified codebase for Firefox and Chrome.
+- Fixed real-time update of wide layout on custom domains.
+- Improved messaging and domain handling logic.
+- Optimized CSS and code structure for maintainability.
+- Settings popup UI revamp, with dark mode support.
 
 **3.1.0**
 - Improved CSS compatibility with the new GitHub layout.

@@ -1,156 +1,133 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const toggle = document.getElementById('wide-toggle');
-  const domainList = document.getElementById('domain-list');
+"use strict";
+
+const DEFAULT_DOMAINS = [
+  'github.com', 'gist.github.com', '*.github.com', '*.github.io'
+];
+
+const normalizeDomain = d => d.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, '').toLowerCase();
+const isDefaultDomain = d => DEFAULT_DOMAINS.some(dom => dom.startsWith('*.') ? normalizeDomain(d).endsWith(dom.slice(2)) : normalizeDomain(d) === dom);
+const isValidDomain = d => /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d);
+const getDomainError = (d, list) =>
+  !d || !isValidDomain(d) ? "Please enter a valid URL."
+  : isDefaultDomain(d) ? "This URL is supported by default."
+  : list.includes(d) ? "This URL was already added."
+  : null;
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+
+// --- Helper to notify all tabs (including custom TLDs) ---
+function notifyAllTabs(msg) {
+  chrome.tabs.query({}, tabs => {
+    for (const tab of tabs) {
+      chrome.tabs.sendMessage(tab.id, msg, () => {});
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // --- DOM elements ---
+  const wideToggle = document.getElementById('wide-toggle');
+  const wideLabel = document.getElementById('wide-label');
   const domainInput = document.getElementById('domain-input');
   const addDomainBtn = document.getElementById('add-domain-btn');
-  const domainError = document.getElementById('domain-error');
-  const toggleLabel = document.querySelector('.toggle-label');
-  
-  // Initialize toggle state
-  chrome.storage.sync.get('wideEnabled', function(result) {
-    toggle.checked = result.wideEnabled !== false;
-    updateToggleLabel();
-  });
-  
-  // Initialize domain list
-  chrome.storage.sync.get('githubDomains', function(result) {
-    renderDomainList(result.githubDomains || []);
-  });
-  
-  // Toggle event listener
-  toggle.addEventListener('change', function() {
-    const enabled = toggle.checked;
-    chrome.storage.sync.set({ wideEnabled: enabled });
-    updateToggleLabel();
-    
-    // Send message to content script
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      if (tabs[0]) {
-        chrome.tabs.sendMessage(tabs[0].id, { wideEnabled: enabled });
-      }
-    });
-  });
-  
-  // Add domain event listeners
-  domainInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-      addDomain();
-    }
-  });
-  
-  domainInput.addEventListener('input', validateDomain);
-  addDomainBtn.addEventListener('click', addDomain);
-  
-  function validateDomain() {
-    const domain = domainInput.value.trim();
-    const isValid = isValidDomain(domain);
-    
-    domainInput.classList.toggle('error', !isValid && domain.length > 0);
-    addDomainBtn.disabled = !isValid;
-    domainError.style.display = isValid || domain.length === 0 ? 'none' : 'block';
-    domainError.textContent = 'Please enter a valid domain name';
-  }
-  
-  function isValidDomain(domain) {
-    if (!domain) return false;
-    
-    // Try to parse as URL first
-    try {
-      const url = new URL(domain);
-      domain = url.hostname;
-    } catch (e) {
-      // If it's not a valid URL, assume it's just a domain name
-      domain = domain.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-    }
-    
-    // Domain validation regex
-    const domainRegex = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i;
-    return domainRegex.test(domain);
-  }
-  
-  function addDomain() {
-    const domain = domainInput.value.trim();
-    if (!isValidDomain(domain)) return;
-    
-    // Clean up domain input (remove protocol and path)
-    let cleanDomain = domain;
-    try {
-      const url = new URL(domain);
-      cleanDomain = url.hostname;
-    } catch (e) {
-      cleanDomain = domain.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-    }
-    
-    // Remove www. if present to normalize domains
-    cleanDomain = cleanDomain.replace(/^www\./, '');
-    
-    chrome.storage.sync.get('githubDomains', function(result) {
-      const domains = result.githubDomains || [];
-      
-      // Check if domain or its www version already exists
-      const domainExists = domains.some(d => {
-        const normalizedD = d.replace(/^www\./, '');
-        return normalizedD === cleanDomain;
-      });
-      
-      if (!domainExists) {
-        domains.push(cleanDomain);
-        chrome.storage.sync.set({ githubDomains: domains }, function() {
-          renderDomainList(domains);
-          domainInput.value = '';
-          validateDomain();
-          
-          // Send message to content script
-          chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-            if (tabs[0]) {
-              chrome.storage.sync.get('wideEnabled', function(result) {
-                chrome.tabs.sendMessage(tabs[0].id, { wideEnabled: result.wideEnabled !== false });
-              });
-            }
-          });
-        });
-      }
-    });
-  }
-  
-  function renderDomainList(domains) {
+  const domainList = document.getElementById('domain-list');
+  const errorDiv = document.getElementById('domain-error');
+  let currentDomains = [];
+
+  // --- UI helpers ---
+  const updateWideLabel = () => wideLabel.textContent = wideToggle.checked ? "Disable wide layout" : "Enable wide layout";
+  const showError = msg => { errorDiv.textContent = msg; errorDiv.style.display = 'block'; domainInput.classList.add('error'); };
+  const hideError = () => { errorDiv.textContent = ''; errorDiv.style.display = 'none'; domainInput.classList.remove('error'); };
+
+  // --- SAFE rendering of domains (NO innerHTML) ---
+  const renderDomains = domains => {
     domainList.innerHTML = '';
-    domains.forEach(function(domain) {
-      const li = document.createElement('li');
-      li.className = 'domain-item';
-      
-      const domainText = document.createElement('span');
-      domainText.textContent = domain;
-      
-      const deleteBtn = document.createElement('button');
-      deleteBtn.className = 'delete-btn';
-      deleteBtn.textContent = '×';
-      deleteBtn.addEventListener('click', function() {
-        const newDomains = domains.filter(d => d !== domain);
-        chrome.storage.sync.set({ githubDomains: newDomains }, function() {
-          renderDomainList(newDomains);
-          
-          // Send message to content script
-          chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-            if (tabs[0]) {
-              chrome.storage.sync.get('wideEnabled', function(result) {
-                chrome.tabs.sendMessage(tabs[0].id, { wideEnabled: result.wideEnabled !== false });
-              });
-            }
-          });
+    domains.forEach(d => {
+      if (!isDefaultDomain(d)) {
+        const li = document.createElement('li');
+        li.className = 'domain-item';
+
+        const span = document.createElement('span');
+        span.className = 'domain-name-fade';
+        span.textContent = d;
+
+        const btn = document.createElement('button');
+        btn.className = 'delete-btn';
+        btn.dataset.domain = d;
+        btn.textContent = '×';
+
+        li.appendChild(span);
+        li.appendChild(btn);
+        domainList.appendChild(li);
+      }
+    });
+  };
+
+  // --- Add button state and validation ---
+  function updateAddButtonState(showErrorMsg = false) {
+    const raw = domainInput.value.trim(), domain = normalizeDomain(raw), error = getDomainError(domain, currentDomains);
+    if (!raw) { hideError(); addDomainBtn.disabled = true; return; }
+    if (error) { showErrorMsg ? showError(error) : hideError(); addDomainBtn.disabled = true; return; }
+    hideError(); addDomainBtn.disabled = false;
+  }
+
+  const debouncedError = debounce(() => updateAddButtonState(true), 2000);
+
+  // --- Initial load from storage ---
+  chrome.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
+    wideToggle.checked = result.wideEnabled !== false;
+    updateWideLabel();
+    currentDomains = (result.githubDomains || []).map(normalizeDomain);
+    renderDomains(currentDomains);
+    updateAddButtonState();
+  });
+
+  // --- Wide toggle logic ---
+  wideToggle.addEventListener('change', () => {
+    updateWideLabel();
+    chrome.storage.sync.set({ wideEnabled: wideToggle.checked }, () => {
+      notifyAllTabs({ wideEnabled: wideToggle.checked });
+    });
+  });
+
+  // --- Input and button events ---
+  domainInput.addEventListener('input', () => { updateAddButtonState(false); debouncedError(); });
+  domainInput.addEventListener('blur', () => updateAddButtonState(true));
+  addDomainBtn.addEventListener('click', tryAddDomain);
+  domainInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryAddDomain(); });
+
+  // --- Domain removal ---
+  domainList.addEventListener('click', e => {
+    if (e.target.classList.contains('delete-btn')) {
+      const domain = e.target.dataset.domain;
+      chrome.storage.sync.get('githubDomains', result => {
+        let domains = (result.githubDomains || []).map(normalizeDomain).filter(d => d !== domain);
+        chrome.storage.sync.set({ githubDomains: domains }, () => {
+          currentDomains = domains;
+          renderDomains(domains);
+          updateAddButtonState();
+          notifyAllTabs({ wideUpdate: true });
         });
       });
-      
-      li.appendChild(domainText);
-      li.appendChild(deleteBtn);
-      domainList.appendChild(li);
+    }
+  });
+
+  // --- Add domain logic ---
+  function tryAddDomain() {
+    const raw = domainInput.value.trim(), domain = normalizeDomain(raw), error = getDomainError(domain, currentDomains);
+    if (error) { showError(error); updateAddButtonState(); return; }
+    chrome.storage.sync.get('githubDomains', result => {
+      let domains = (result.githubDomains || []).map(normalizeDomain);
+      const duplicateError = getDomainError(domain, domains);
+      if (duplicateError) { showError(duplicateError); updateAddButtonState(); return; }
+      domains.push(domain);
+      chrome.storage.sync.set({ githubDomains: domains }, () => {
+        currentDomains = domains;
+        renderDomains(domains);
+        domainInput.value = '';
+        hideError();
+        updateAddButtonState();
+        notifyAllTabs({ wideUpdate: true });
+      });
     });
   }
-  
-  function updateToggleLabel() {
-    toggleLabel.textContent = toggle.checked ? 'Wide Layout' : 'Normal Layout';
-  }
-  
-  // Initial validation
-  validateDomain();
 });
