@@ -1,8 +1,14 @@
 <img src="assets/Wide-GitHub_Logo.png?raw=true" alt="Wide GitHub Logo" width="583" height="300" />
 
-<a href="https://addons.mozilla.org/en-US/firefox/addon/widegithub">
-  <img src="assets/firefox-get-the-addon.png" alt="Download add-on on Mozilla.org" width="129" height="45" />
-</a>
+<div align="center">
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/wide-github-extension/">
+    <img src="assets/Wide-GitHub_Firefox-Badge.png" alt="Get it on Firefox Add-ons" width="129" height="45" />
+  </a>
+  &nbsp;
+  <a href="https://chromewebstore.google.com/detail/wide-github/hohnneiphpemlbhmiiipkfjnfhmnobpo">
+    <img src="assets/Wide-GitHub_Chrome-Badge.png" alt="Get it on Chrome Web Store" width="164" height="45" />
+  </a>
+</div>
 
 # Wide GitHub
 
@@ -26,15 +32,14 @@ It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 1
 ## Installation
 
 ### Firefox
-1. Visit [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/widegithub/)
+1. Visit [Wide GitHub for Firefox](https://addons.mozilla.org/en-US/firefox/addon/widegithub/)
 2. Click "Add to Firefox"
 3. Confirm the installation
 
 ### Chrome
-1. Go to `chrome://extensions`
-2. Enable "Developer mode"
-3. Click "Load unpacked"
-4. Select the `chrome/` directory
+1. Visit [Wide GitHub for Chrome](https://chromewebstore.google.com/detail/wide-github/hohnneiphpemlbhmiiipkfjnfhmnobpo)
+2. Click "Add to Chrome"
+3. Confirm the installation
 
 ---
 
@@ -61,44 +66,36 @@ The extension will automatically handle:
 
 ## Development
 
-The extension is available in two versions:
+All source code is in the `src/` folder and is shared between Chrome and Firefox builds.  
+Manifest files are separate for each browser.
 
-- `firefox/`: Firefox version
-- `chrome/`: Chrome version
+### Setup
 
-Both versions share the same core functionality but are adapted to their respective browser's APIs.
-
-### Building & Testing
-
-1. Clone the repository
-2. Navigate to either the `firefox/` or `chrome/` directory
-3. Make your changes
-
-#### Firefox
-- Follow the "Packaging" instructions below
-- Go to `about:debugging`
-- Click "This Firefox"
-- Click "Load Temporary Add-on"
-- Select the previously generated ZIP file
-
-#### Chrome
-- Go to `chrome://extensions`
-- Enable "Developer mode"
-- Click "Load unpacked"
-- Select the `chrome/` directory
-
----
-
-## Packaging
-
-To create a ZIP file exclude system files and unnecessary files like `.DS_Store`, `.git`, `.gitignore`, `.MACOSX`, and any development-only files.
-
-From inside the `chrome/` or `firefox/` directory, run:
+If you just cloned the repository, make the build scripts executable:
 
 ```sh
-zip -r ../wide-github.zip . -x '*.DS_Store' -x '*.git*' -x '*.MACOSX*' -x '*.md'
+chmod +x build.sh package.sh
 ```
-This will create a `wide-github.zip` in the parent directory, ready for use.
+
+### Build
+
+To build the extension for both browsers:
+
+```sh
+./build.sh
+```
+
+This will generate the folders `dist/firefox` and `dist/chrome` with the ready-to-use extension files.
+
+### Package
+
+To create ZIP files for release (excluding system and dev files):
+
+```sh
+./package.sh
+```
+
+This will create `wide-github-firefox.zip` and `wide-github-chrome.zip` in the project root, ready for upload to the stores.
 
 ---
 
@@ -116,8 +113,16 @@ For details about how Wide GitHub handles your data and permissions, please see 
 
 ## Changelog
 
-**3.2.0**
+**3.3.0**
 - Unified codebase for Firefox and Chrome.
+- Removed outdated background script.
+- Added universal API wrapper for cross-browser compatibility.
+- Implemented a CSS fix to prevent accidental application on non-GitHub sites.
+- Improved flickering issue on first load.
+- Introduced some automation in building and packaging.
+- Added Chrome Web Store links and mentions.
+
+**3.2.0**
 - Fixed real-time update of wide layout on custom domains.
 - Improved messaging and domain handling logic.
 - Optimized CSS and code structure for maintainability.

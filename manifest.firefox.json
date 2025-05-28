@@ -1,20 +1,21 @@
 {
   "manifest_version": 3,
   "name": "Wide GitHub",
-  "version": "3.2.0",
-  "description": "Makes GitHub wide on Google Chrome. Supports GitHub, private Gists, GitHub Enterprise, and custom domains (TLDs).",
+  "version": "3.3.0",
+  "description": "Makes GitHub wide on Mozilla Firefox. Supports GitHub, private Gists, GitHub Enterprise, and custom domains (TLDs).",
   "homepage_url": "https://github.com/fabiocchetti/wide-github",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{72742915-c83b-4485-9023-b55dc5a1e730}",
+      "strict_min_version": "109.0"
+    }
+  },
   "icons": {
-    "16": "icons/wide-github-16.png",
     "48": "icons/wide-github-48.png",
-    "128": "icons/wide-github-128.png"
+    "96": "icons/wide-github-96.png"
   },
   "action": {
-    "default_icon": {
-      "16": "icons/wide-github-16.png",
-      "48": "icons/wide-github-48.png",
-      "128": "icons/wide-github-128.png"
-    },
+    "default_icon": "icons/wide-github-96.png",
     "default_title": "Wide GitHub",
     "default_popup": "popup.html"
   },
@@ -42,8 +43,5 @@
       "js": ["handler.js"],
       "run_at": "document_start"
     }
-  ],
-  "background": {
-    "service_worker": "background.js"
-  }
+  ]
 }
