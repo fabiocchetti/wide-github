@@ -114,9 +114,9 @@ For details about how Wide GitHub handles your data and permissions, please see 
 ## Changelog
 
 **3.3.0**
-- Unified codebase: all shared code is now in `src/`, with separate manifests for Chrome and Firefox.
+- Unified codebase for Firefox and Chrome.
 - Removed outdated background script.
-- Added universal API wrapper (`ext`) for cross-browser compatibility.
+- Added universal API wrapper for cross-browser compatibility.
 - Implemented a CSS fix to prevent accidental application on non-GitHub sites.
 - Improved flickering issue on first load.
 - Introduced some automation in building and packaging.
