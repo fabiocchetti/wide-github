@@ -2,11 +2,11 @@
 
 <div align="center">
   <a href="https://addons.mozilla.org/en-US/firefox/addon/wide-github-extension/">
-    <img src="assets/firefox-get-the-addon.png" alt="Get it on Firefox Add-ons" width="129" height="45" />
+    <img src="assets/Wide-GitHub_Firefox-Badge.png" alt="Get it on Firefox Add-ons" width="129" height="45" />
   </a>
   &nbsp;
   <a href="https://chromewebstore.google.com/detail/wide-github/hohnneiphpemlbhmiiipkfjnfhmnobpo">
-    <img src="assets/chrome-get-the-addon.png" alt="Get it on Chrome Web Store" width="164" height="45" />
+    <img src="assets/Wide-GitHub_Chrome-Badge.png" alt="Get it on Chrome Web Store" width="164" height="45" />
   </a>
 </div>
 
