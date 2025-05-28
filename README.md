@@ -1,14 +1,12 @@
 <img src="assets/Wide-GitHub_Logo.png?raw=true" alt="Wide GitHub Logo" width="583" height="300" />
 
-<div align="center">
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/wide-github-extension/">
-    <img src="assets/Wide-GitHub_Firefox-Badge.png" alt="Get it on Firefox Add-ons" width="129" height="45" />
-  </a>
-  &nbsp;
-  <a href="https://chromewebstore.google.com/detail/wide-github/hohnneiphpemlbhmiiipkfjnfhmnobpo">
-    <img src="assets/Wide-GitHub_Chrome-Badge.png" alt="Get it on Chrome Web Store" width="164" height="45" />
-  </a>
-</div>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/widegithub/">
+  <img src="assets/Wide-GitHub_Firefox-Badge.png" alt="Get it on Firefox Add-ons" width="129" height="45" />
+</a>
+
+<a href="https://chromewebstore.google.com/detail/wide-github/hohnneiphpemlbhmiiipkfjnfhmnobpo">
+  <img src="assets/Wide-GitHub_Chrome-Badge.png" alt="Get it on Chrome Web Store" width="162" height="44" />
+</a>
 
 # Wide GitHub
 
