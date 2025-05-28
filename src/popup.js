@@ -1,5 +1,16 @@
 "use strict";
 
+// Cross-browser API wrapper
+const ext = typeof browser !== "undefined" ? browser : chrome;
+
+// Initialize storage with default values if needed
+ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
+  if (result.wideEnabled === undefined)
+    ext.storage.sync.set({ wideEnabled: true });
+  if (!result.githubDomains)
+    ext.storage.sync.set({ githubDomains: [] });
+});
+
 const DEFAULT_DOMAINS = [
   'github.com', 'gist.github.com', '*.github.com', '*.github.io'
 ];
@@ -16,9 +27,9 @@ const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = se
 
 // --- Helper to notify all tabs (including custom TLDs) ---
 function notifyAllTabs(msg) {
-  chrome.tabs.query({}, tabs => {
+  ext.tabs.query({}, tabs => {
     for (const tab of tabs) {
-      chrome.tabs.sendMessage(tab.id, msg, () => {});
+      ext.tabs.sendMessage(tab.id, msg, () => {});
     }
   });
 }
@@ -73,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const debouncedError = debounce(() => updateAddButtonState(true), 2000);
 
   // --- Initial load from storage ---
-  chrome.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
+  ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
     wideToggle.checked = result.wideEnabled !== false;
     updateWideLabel();
     currentDomains = (result.githubDomains || []).map(normalizeDomain);
@@ -84,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Wide toggle logic ---
   wideToggle.addEventListener('change', () => {
     updateWideLabel();
-    chrome.storage.sync.set({ wideEnabled: wideToggle.checked }, () => {
+    ext.storage.sync.set({ wideEnabled: wideToggle.checked }, () => {
       notifyAllTabs({ wideEnabled: wideToggle.checked });
     });
   });
@@ -99,9 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
   domainList.addEventListener('click', e => {
     if (e.target.classList.contains('delete-btn')) {
       const domain = e.target.dataset.domain;
-      chrome.storage.sync.get('githubDomains', result => {
+      ext.storage.sync.get('githubDomains', result => {
         let domains = (result.githubDomains || []).map(normalizeDomain).filter(d => d !== domain);
-        chrome.storage.sync.set({ githubDomains: domains }, () => {
+        ext.storage.sync.set({ githubDomains: domains }, () => {
           currentDomains = domains;
           renderDomains(domains);
           updateAddButtonState();
@@ -115,12 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function tryAddDomain() {
     const raw = domainInput.value.trim(), domain = normalizeDomain(raw), error = getDomainError(domain, currentDomains);
     if (error) { showError(error); updateAddButtonState(); return; }
-    chrome.storage.sync.get('githubDomains', result => {
+    ext.storage.sync.get('githubDomains', result => {
       let domains = (result.githubDomains || []).map(normalizeDomain);
       const duplicateError = getDomainError(domain, domains);
       if (duplicateError) { showError(duplicateError); updateAddButtonState(); return; }
       domains.push(domain);
-      chrome.storage.sync.set({ githubDomains: domains }, () => {
+      ext.storage.sync.set({ githubDomains: domains }, () => {
         currentDomains = domains;
         renderDomains(domains);
         domainInput.value = '';

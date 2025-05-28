@@ -1,5 +1,19 @@
 "use strict";
 
+// Cross-browser API wrapper
+const ext = typeof browser !== "undefined" ? browser : chrome;
+
+// Initialize storage with default values if needed
+ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
+  if (result.wideEnabled === undefined)
+    ext.storage.sync.set({ wideEnabled: true });
+  if (!result.githubDomains)
+    ext.storage.sync.set({ githubDomains: [] });
+});
+
+// Prevent flicker: hide body until layout is evaluated
+document.documentElement.setAttribute('data-wide-github-init', '');
+
 const DEFAULT_DOMAINS = [
   'github.com', 'gist.github.com', '*.github.com', '*.github.io'
 ];
@@ -10,6 +24,7 @@ const isDefaultDomain = d => DEFAULT_DOMAINS.some(dom => dom.startsWith('*.') ? 
 // --- Apply or remove wide layout class ---
 function setWideLayout(enabled) {
   document.documentElement.classList.toggle('is-wide-github-enabled', !!enabled);
+  document.documentElement.removeAttribute('data-wide-github-init');
 }
 
 // --- Check if current domain is whitelisted (default or custom) ---
@@ -27,17 +42,16 @@ function isDomainWhitelisted(domain, whitelist) {
 // --- Main logic: update layout based on settings and domain ---
 function updateWideLayout() {
   const currentDomain = window.location.hostname;
-  chrome.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
+  ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
     const enabled = isDomainWhitelisted(currentDomain, result.githubDomains) &&
       (result.wideEnabled === undefined || result.wideEnabled);
     setWideLayout(enabled);
   });
 }
 
-// --- Listen for messages from popup/background ---
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+// --- Listen for messages from popup ---
+ext.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.wideEnabled !== undefined || msg.wideUpdate) {
-    // Delay to ensure storage is updated before reading
     setTimeout(updateWideLayout, 50);
   }
 });
@@ -49,7 +63,6 @@ function checkUrlChange() {
   if (url !== lastUrl) {
     lastUrl = url;
     updateWideLayout();
-    // Retry a few times for dynamic content
     let retries = 5;
     const interval = setInterval(() => {
       updateWideLayout();
@@ -58,13 +71,9 @@ function checkUrlChange() {
   }
 }
 
-// --- Observe DOM mutations (fallback for SPA) ---
 new MutationObserver(checkUrlChange).observe(document, { subtree: true, childList: true });
-
-// --- Listen for history API navigation (popstate) ---
 window.addEventListener('popstate', checkUrlChange);
 
-// --- Patch pushState/replaceState to detect SPA navigation ---
 (function(history) {
   const wrap = fn => function() {
     fn.apply(this, arguments);
@@ -76,7 +85,6 @@ window.addEventListener('popstate', checkUrlChange);
 
 window.addEventListener('widegithub-urlchange', checkUrlChange);
 
-// --- Observe main content area for changes (tab switches, etc.) ---
 function observeMainContent() {
   const main = document.querySelector('.application-main');
   if (main) {
@@ -84,13 +92,9 @@ function observeMainContent() {
   }
 }
 observeMainContent();
-
-// --- Re-observe if main content is replaced (rare, but possible) ---
 new MutationObserver(observeMainContent).observe(document.documentElement, { childList: true, subtree: false });
 
-// --- Listen for GitHub's own AJAX navigation events (pjax) ---
 document.addEventListener('pjax:end', updateWideLayout);
 document.addEventListener('DOMContentLoaded', updateWideLayout);
 
-// --- Initial layout check ---
 updateWideLayout();

@@ -1,3 +1,16 @@
+/* Prevent flicker */
+html[data-wide-github-init] body {
+  opacity: 0 !important;
+  transition: none !important;
+}
+html.is-wide-github-enabled body,
+html:not(.is-wide-github-enabled)[data-wide-github-init] body {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+/* Wide GitHub styles */
+
 html.is-wide-github-enabled .application-main .container-lg,
 html.is-wide-github-enabled .footer.container-lg {
   margin-left: 0 !important;
@@ -99,46 +112,4 @@ html.is-wide-github-enabled .repository-content #all_commit_comments .comment-ho
 
 html.is-wide-github-enabled .repository-content .timeline-new-comment {
   max-width: 100% !important;
-}
-
-.container {
-  max-width: 100% !important;
-  padding: 0 20px !important;
-}
-
-.repository-content {
-  max-width: 100% !important;
-}
-
-.Layout {
-  max-width: 100% !important;
-}
-
-.Layout-main {
-  max-width: 100% !important;
-}
-
-.wide-github-enabled .container {
-  width: 100% !important;
-  max-width: none !important;
-}
-
-.wide-github-enabled .repository-content {
-  width: 100% !important;
-  max-width: none !important;
-}
-
-.wide-github-enabled .gist-content {
-  width: 100% !important;
-  max-width: none !important;
-}
-
-.wide-github-enabled .Layout {
-  width: 100% !important;
-  max-width: none !important;
-}
-
-.wide-github-enabled .Layout-main {
-  width: 100% !important;
-  max-width: none !important;
 }

@@ -1,5 +1,16 @@
 "use strict";
 
+// Cross-browser API wrapper
+const ext = typeof browser !== "undefined" ? browser : chrome;
+
+// Initialize storage with default values if needed
+ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
+  if (result.wideEnabled === undefined)
+    ext.storage.sync.set({ wideEnabled: true });
+  if (!result.githubDomains)
+    ext.storage.sync.set({ githubDomains: [] });
+});
+
 const DEFAULT_DOMAINS = [
   'github.com', 'gist.github.com', '*.github.com', '*.github.io'
 ];
@@ -16,9 +27,9 @@ const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = se
 
 // --- Helper to notify all tabs (including custom TLDs) ---
 function notifyAllTabs(msg) {
-  browser.tabs.query({}).then(tabs => {
+  ext.tabs.query({}, tabs => {
     for (const tab of tabs) {
-      browser.tabs.sendMessage(tab.id, msg).catch(() => {});
+      ext.tabs.sendMessage(tab.id, msg, () => {});
     }
   });
 }
@@ -38,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const showError = msg => { errorDiv.textContent = msg; errorDiv.style.display = 'block'; domainInput.classList.add('error'); };
   const hideError = () => { errorDiv.textContent = ''; errorDiv.style.display = 'none'; domainInput.classList.remove('error'); };
 
-  // --- Domains rendering ---
+  // --- SAFE rendering of domains (NO innerHTML) ---
   const renderDomains = domains => {
     domainList.innerHTML = '';
     domains.forEach(d => {
@@ -73,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const debouncedError = debounce(() => updateAddButtonState(true), 2000);
 
   // --- Initial load from storage ---
-  browser.storage.sync.get(['wideEnabled', 'githubDomains']).then(result => {
+  ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
     wideToggle.checked = result.wideEnabled !== false;
     updateWideLabel();
     currentDomains = (result.githubDomains || []).map(normalizeDomain);
@@ -84,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Wide toggle logic ---
   wideToggle.addEventListener('change', () => {
     updateWideLabel();
-    browser.storage.sync.set({ wideEnabled: wideToggle.checked }).then(() => {
+    ext.storage.sync.set({ wideEnabled: wideToggle.checked }, () => {
       notifyAllTabs({ wideEnabled: wideToggle.checked });
     });
   });
@@ -99,9 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
   domainList.addEventListener('click', e => {
     if (e.target.classList.contains('delete-btn')) {
       const domain = e.target.dataset.domain;
-      browser.storage.sync.get('githubDomains').then(result => {
+      ext.storage.sync.get('githubDomains', result => {
         let domains = (result.githubDomains || []).map(normalizeDomain).filter(d => d !== domain);
-        browser.storage.sync.set({ githubDomains: domains }).then(() => {
+        ext.storage.sync.set({ githubDomains: domains }, () => {
           currentDomains = domains;
           renderDomains(domains);
           updateAddButtonState();
@@ -115,12 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function tryAddDomain() {
     const raw = domainInput.value.trim(), domain = normalizeDomain(raw), error = getDomainError(domain, currentDomains);
     if (error) { showError(error); updateAddButtonState(); return; }
-    browser.storage.sync.get('githubDomains').then(result => {
+    ext.storage.sync.get('githubDomains', result => {
       let domains = (result.githubDomains || []).map(normalizeDomain);
       const duplicateError = getDomainError(domain, domains);
       if (duplicateError) { showError(duplicateError); updateAddButtonState(); return; }
       domains.push(domain);
-      browser.storage.sync.set({ githubDomains: domains }).then(() => {
+      ext.storage.sync.set({ githubDomains: domains }, () => {
         currentDomains = domains;
         renderDomains(domains);
         domainInput.value = '';
