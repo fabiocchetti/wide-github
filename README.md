@@ -1,18 +1,18 @@
 <img src="assets/Wide-GitHub_Logo.png?raw=true" alt="Wide GitHub Logo" width="583" height="300" />
 
-<a href="https://addons.mozilla.org/en-US/firefox/addon/widegithub/">
-  <img src="assets/Wide-GitHub_Firefox-Badge.png" alt="Get it on Firefox Add-ons" width="129" height="45" />
-</a>
-
-<a href="https://chromewebstore.google.com/detail/wide-github/hohnneiphpemlbhmiiipkfjnfhmnobpo">
-  <img src="assets/Wide-GitHub_Chrome-Badge.png" alt="Get it on Chrome Web Store" width="162" height="44" />
-</a>
-
 # Wide GitHub
 
 **Wide GitHub** is a browser extension that makes GitHub’s layout wide, enhancing readability, reducing vertical scrolling, and improving accessibility.
 
 It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 109+ and Chrome Manifest V3 supported).
+
+<a href="https://addons.mozilla.org/en-US/firefox/addon/widegithub/">
+  <img src="assets/Wide-GitHub_Firefox-Badge.png" alt="Get it on Firefox Add-ons" width="129" height="45" />
+</a>
+<br/>
+<a href="https://chromewebstore.google.com/detail/wide-github/hohnneiphpemlbhmiiipkfjnfhmnobpo">
+  <img src="assets/Wide-GitHub_Chrome-Badge.png" alt="Get it on Chrome Web Store" width="162" height="44" />
+</a>
 
 ---
 
