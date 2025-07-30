@@ -111,6 +111,9 @@ For details about how Wide GitHub handles your data and permissions, please see 
 
 ## Changelog
 
+**3.3.1**
+- Support July 2025 layout ([Issue #35](https://github.com/fabiocchetti/wide-github/pull/34), thanks to [@AetherUnbound](https://github.com/AetherUnbound)).
+
 **3.3.0**
 - Unified codebase for Firefox and Chrome.
 - Removed outdated background script.
