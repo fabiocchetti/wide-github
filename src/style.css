@@ -63,6 +63,10 @@ html.is-wide-github-enabled main div[data-target="react-app.reactRoot"] div[styl
   max-width: none;
 }
 
+html.is-wide-github-enabled main div[class^='ThreePanesLayout'] {
+  max-width: none;
+}
+
 /* Issues list page */
 html.is-wide-github-enabled .application-main div[data-target="react-app.reactRoot"] div[class^="prc-PageLayout-Content-"] > div[class^="Box-sc-"] {
   max-width: none !important;
@@ -74,6 +78,10 @@ html.is-wide-github-enabled main div[class*="prc-PageLayout-Content--"] > div[cl
 
 /* Issue detail */
 html.is-wide-github-enabled main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] {
+  max-width: none;
+}
+
+html.is-wide-github-enabled main div[class^='IssueViewer'] div[class^='ContentWrapper'] {
   max-width: none;
 }
 
