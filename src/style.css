@@ -121,3 +121,13 @@ html.is-wide-github-enabled .repository-content #all_commit_comments .comment-ho
 html.is-wide-github-enabled .repository-content .timeline-new-comment {
   max-width: 100% !important;
 }
+
+/* Pull requests discussions */
+html.is-wide-github-enabled [class^="prc-PageLayout-Content-"]:has(> .pull-discussion-timeline) {
+  max-width: 100% !important;
+}
+
+/* Repository settings */
+html.is-wide-github-enabled .container-md {
+  max-width: 100% !important;
+}
