@@ -111,8 +111,11 @@ For details about how Wide GitHub handles your data and permissions, please see 
 
 ## Changelog
 
+**3.3.3**
+- Fixed repository code page width ([Issue 37](https://github.com/fabiocchetti/wide-github/pull/37), thanks to [@mxgic1337](https://github.com/mxgic1337)).
+
 **3.3.2**
-- Improved compatibility with discussions and repository settings pages ([PR #36](https://github.com/fabiocchetti/wide-github/pull/36), thanks to [@mxgic1337](https://github.com/mxgic1337)).
+- Improved compatibility with discussions and repository settings pages ([Issue 36](https://github.com/fabiocchetti/wide-github/pull/36), thanks to [@mxgic1337](https://github.com/mxgic1337)).
 
 **3.3.1**
 - Support July 2025 layout ([Issue #35](https://github.com/fabiocchetti/wide-github/pull/34), thanks to [@AetherUnbound](https://github.com/AetherUnbound)).
