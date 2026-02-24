@@ -131,3 +131,8 @@ html.is-wide-github-enabled [class^="prc-PageLayout-Content-"]:has(> .pull-discu
 html.is-wide-github-enabled .container-md {
   max-width: 100% !important;
 }
+
+/* Repository code page */
+html.is-wide-github-enabled .prc-PageLayout-Content-xWL-A:where([data-width="large"]) {
+  max-width: 100% !important;
+}
