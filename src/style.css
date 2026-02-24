@@ -3,7 +3,6 @@ html[data-wide-github-init] body {
   opacity: 0 !important;
   transition: none !important;
 }
-
 html.is-wide-github-enabled body,
 html:not(.is-wide-github-enabled)[data-wide-github-init] body {
   opacity: 1 !important;
@@ -46,7 +45,7 @@ html.is-wide-github-enabled #js-repo-pjax-container .repository-content .discuss
 }
 
 html.is-wide-github-enabled #js-repo-pjax-container div[style="--sticky-pane-height:100vh"],
-html.is-wide-github-enabled #js-repo-pjax-container div[style="--sticky-pane-height: 100vh;"]>div[class^='Box-sc-']:first-child {
+html.is-wide-github-enabled #js-repo-pjax-container div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-']:first-child {
   max-width: none;
 }
 
@@ -54,13 +53,13 @@ html.is-wide-github-enabled .Layout-main div[data-selector="repos-split-pane-con
   max-width: none !important;
 }
 
-html.is-wide-github-enabled .Layout-main div[style="--sticky-pane-height: 100vh;"]>div[class^='Box-sc-']>div[class^='Box-sc-']>div[class^='Box-sc-']>div[class^='Box-sc-']:nth-child(2),
-html.is-wide-github-enabled .Layout-main div[style="--sticky-pane-height:100vh"]>div[class^='Box-sc-']>div[class^='Box-sc-']>div[class^='Box-sc-']>div[class^='Box-sc-']:nth-child(2) {
+html.is-wide-github-enabled .Layout-main div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2),
+html.is-wide-github-enabled .Layout-main div[style="--sticky-pane-height:100vh"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) {
   max-width: none;
 }
 
 /* Issue list */
-html.is-wide-github-enabled main div[data-target="react-app.reactRoot"] div[style="--sticky-pane-height: 100vh;"]>div[class^='Box-sc-']>div[class^='Box-sc-']>div[class^='Box-sc-']>div[class^='Box-sc-']:nth-child(2)>div[class^='Box-sc-'] {
+html.is-wide-github-enabled main div[data-target="react-app.reactRoot"] div[style="--sticky-pane-height: 100vh;"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-']:nth-child(2) > div[class^='Box-sc-'] {
   max-width: none;
 }
 
@@ -69,16 +68,16 @@ html.is-wide-github-enabled main div[class^='ThreePanesLayout'] {
 }
 
 /* Issues list page */
-html.is-wide-github-enabled .application-main div[data-target="react-app.reactRoot"] div[class^="prc-PageLayout-Content-"]>div[class^="Box-sc-"] {
+html.is-wide-github-enabled .application-main div[data-target="react-app.reactRoot"] div[class^="prc-PageLayout-Content-"] > div[class^="Box-sc-"] {
   max-width: none !important;
 }
 
-html.is-wide-github-enabled main div[class*="prc-PageLayout-Content--"]>div[class^="Box-sc-"] {
+html.is-wide-github-enabled main div[class*="prc-PageLayout-Content--"] > div[class^="Box-sc-"] {
   max-width: none;
 }
 
 /* Issue detail */
-html.is-wide-github-enabled main div[data-target="react-app.reactRoot"]>div[class^='Box-sc-']>div[class^='Box-sc-']>div[class^='Box-sc-']>div[class^='Box-sc-'] {
+html.is-wide-github-enabled main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] {
   max-width: none;
 }
 
@@ -87,7 +86,7 @@ html.is-wide-github-enabled main div[class^='IssueViewer'] div[class^='ContentWr
 }
 
 /* Issue page */
-html.is-wide-github-enabled .application-main div[data-target="react-app.reactRoot"]>div[class^="Box-sc-"]>div[class^="Box-sc-"]>div[class^="Box-sc-"]>div[class^="Box-sc-"] {
+html.is-wide-github-enabled .application-main div[data-target="react-app.reactRoot"] > div[class^="Box-sc-"] > div[class^="Box-sc-"] > div[class^="Box-sc-"] > div[class^="Box-sc-"] {
   max-width: none !important;
 }
 
@@ -97,7 +96,7 @@ html.is-wide-github-enabled .application-main div[data-target="react-app.reactRo
 }
 
 /* Issue scrolled header */
-html.is-wide-github-enabled main div[data-target="react-app.reactRoot"]>div[class^='Box-sc-']>div[class^='Box-sc-']>div[class^='Box-sc-']>div.js-notification-shelf-offset-top>div[class^='Box-sc-'] {
+html.is-wide-github-enabled main div[data-target="react-app.reactRoot"] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div[class^='Box-sc-'] > div.js-notification-shelf-offset-top > div[class^='Box-sc-'] {
   max-width: none;
 }
 
