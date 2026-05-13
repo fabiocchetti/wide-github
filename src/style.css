@@ -127,6 +127,10 @@ html.is-wide-github-enabled [class^="prc-PageLayout-Content-"]:has(> .pull-discu
   max-width: 100% !important;
 }
 
+html.is-wide-github-enabled [class^="prc-PageLayout-ContentWrapper-"] {
+  max-width: 100% !important;
+}
+
 /* Repository settings */
 html.is-wide-github-enabled .container-md {
   max-width: 100% !important;
