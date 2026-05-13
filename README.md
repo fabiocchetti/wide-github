@@ -111,6 +111,11 @@ For details about how Wide GitHub handles your data and permissions, please see 
 
 ## Changelog
 
+**3.4.0**
+- Fixed PR discussion content wrapper ([Issue 40](https://github.com/fabiocchetti/wide-github/pull/40), thanks to [@Tesskyrim000](https://github.com/Tesskyrim000)).
+- Popup now displays current domain status with quick-add button for unsupported domains.
+- Fixed storage to ensure wide layout settings are fully loaded before applying styles.
+
 **3.3.3**
 - Fixed repository code page width ([Issue 37](https://github.com/fabiocchetti/wide-github/pull/37), thanks to [@mxgic1337](https://github.com/mxgic1337)).
 

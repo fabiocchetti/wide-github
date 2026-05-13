@@ -136,7 +136,8 @@
     #domain-input.error {
       border-color: #d73a49;
     }
-    #add-domain-btn {
+    #add-domain-btn,
+    .quick-add-btn {
       background: #388bfd;
       color: #fff;
       border: none;
@@ -149,9 +150,14 @@
       text-transform: uppercase;
       transition: background 0.15s;
     }
-    #add-domain-btn:disabled {
+    #add-domain-btn:disabled,
+    .quick-add-btn:disabled {
       background: #bbb;
       cursor: not-allowed;
+    }
+    .quick-add-btn {
+      width: 100%;
+      margin-top: 4px;
     }
     .error-message {
       color: #d73a49;
@@ -227,6 +233,14 @@
       <input type="checkbox" id="wide-toggle" />
       <span class="slider"></span>
     </label>
+  </div>
+  <div class="current-domain-section" id="current-domain-section" style="display: none;">
+    <span class="section-label">Current domain</span>
+    <div style="font-size: 12px; padding: 6px; background: var(--item-bg); border-radius: 4px; margin-bottom: 8px;">
+      <span id="current-domain-name" style="word-break: break-all;">—</span>
+      <div id="current-domain-status" style="font-size: 11px; color: #888; margin-top: 4px;"></div>
+      <button id="quick-add-domain-btn" class="quick-add-btn" style="display: none;" title="Add current domain to custom list">Add this domain</button>
+    </div>
   </div>
   <div class="domains-section">
     <span class="section-label">Custom domains</span>

@@ -3,16 +3,18 @@
 // Cross-browser API wrapper
 const ext = typeof browser !== "undefined" ? browser : chrome;
 
-// Initialize storage with default values if needed
+// Prevent flicker: hide body until layout is evaluated
+document.documentElement.setAttribute('data-wide-github-init', '');
+
+// Initialize storage with default values if needed and run updateWideLayout after
 ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
   if (result.wideEnabled === undefined)
     ext.storage.sync.set({ wideEnabled: true });
   if (!result.githubDomains)
     ext.storage.sync.set({ githubDomains: [] });
+  // Run initial layout update after storage is ready
+  updateWideLayout();
 });
-
-// Prevent flicker: hide body until layout is evaluated
-document.documentElement.setAttribute('data-wide-github-init', '');
 
 const DEFAULT_DOMAINS = [
   'github.com', 'gist.github.com', '*.github.com', '*.github.io'
@@ -25,6 +27,7 @@ const isDefaultDomain = d => DEFAULT_DOMAINS.some(dom => dom.startsWith('*.') ? 
 function setWideLayout(enabled) {
   document.documentElement.classList.toggle('is-wide-github-enabled', !!enabled);
   document.documentElement.removeAttribute('data-wide-github-init');
+  
 }
 
 // --- Check if current domain is whitelisted (default or custom) ---
@@ -96,5 +99,3 @@ new MutationObserver(observeMainContent).observe(document.documentElement, { chi
 
 document.addEventListener('pjax:end', updateWideLayout);
 document.addEventListener('DOMContentLoaded', updateWideLayout);
-
-updateWideLayout();

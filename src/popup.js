@@ -25,11 +25,23 @@ const getDomainError = (d, list) =>
   : null;
 const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
 
+// --- Check if domain is whitelisted (default or custom) ---
+function isDomainWhitelisted(domain, whitelist) {
+  const normalized = normalizeDomain(domain);
+  if (isDefaultDomain(normalized)) return true;
+  if (Array.isArray(whitelist))
+    return whitelist.some(wd => {
+      const nwd = normalizeDomain(wd);
+      return nwd.startsWith('*.') ? normalized.endsWith(nwd.slice(2)) : normalized === nwd;
+    });
+  return false;
+}
+
 // --- Helper to notify all tabs (including custom TLDs) ---
 function notifyAllTabs(msg) {
   ext.tabs.query({}, tabs => {
     for (const tab of tabs) {
-      ext.tabs.sendMessage(tab.id, msg, () => {});
+      ext.tabs.sendMessage(tab.id, msg, () => { void ext.runtime.lastError; });
     }
   });
 }
@@ -42,7 +54,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const addDomainBtn = document.getElementById('add-domain-btn');
   const domainList = document.getElementById('domain-list');
   const errorDiv = document.getElementById('domain-error');
+  const currentDomainSection = document.getElementById('current-domain-section');
+  const currentDomainName = document.getElementById('current-domain-name');
+  const currentDomainStatus = document.getElementById('current-domain-status');
+  const quickAddBtn = document.getElementById('quick-add-domain-btn');
   let currentDomains = [];
+  let currentTabHost = null;
+
+  // --- Update current domain display ---
+  function updateCurrentDomainDisplay() {
+    if (!currentTabHost) return;
+    const isSupported = isDomainWhitelisted(currentTabHost, currentDomains);
+    currentDomainName.textContent = currentTabHost;
+    currentDomainStatus.textContent = isSupported ? '✓ Supported' : '⚠ Not configured';
+    quickAddBtn.style.display = isSupported ? 'none' : 'block';
+    currentDomainSection.style.display = 'block';
+  }
+
+  // --- Get current active tab hostname (after DOM is ready) ---
+  ext.tabs.query({ active: true, currentWindow: true }, tabs => {
+    if (tabs[0]) {
+      try {
+        const url = new URL(tabs[0].url);
+        currentTabHost = url.hostname;
+        // Try to update immediately if storage already loaded, otherwise wait for storage callback
+        if (currentDomains.length >= 0) updateCurrentDomainDisplay();
+      } catch (e) {
+        // Ignore invalid URLs (e.g., chrome://, about:)
+      }
+    }
+  });
 
   // --- UI helpers ---
   const updateWideLabel = () => wideLabel.textContent = wideToggle.checked ? "Disable wide layout" : "Enable wide layout";
@@ -89,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateWideLabel();
     currentDomains = (result.githubDomains || []).map(normalizeDomain);
     renderDomains(currentDomains);
+    updateCurrentDomainDisplay();
     updateAddButtonState();
   });
 
@@ -116,9 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
           currentDomains = domains;
           renderDomains(domains);
           updateAddButtonState();
+          updateCurrentDomainDisplay();
           notifyAllTabs({ wideUpdate: true });
         });
       });
+    }
+  });
+
+  // --- Quick-add current domain button ---
+  quickAddBtn.addEventListener('click', () => {
+    if (currentTabHost) {
+      domainInput.value = currentTabHost;
+      tryAddDomain();
     }
   });
 
@@ -137,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         domainInput.value = '';
         hideError();
         updateAddButtonState();
+        updateCurrentDomainDisplay();
         notifyAllTabs({ wideUpdate: true });
       });
     });
