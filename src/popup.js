@@ -1,7 +1,8 @@
 "use strict";
 
-// Cross-browser API wrapper
-const ext = typeof browser !== "undefined" ? browser : chrome;
+// Shared helpers (ext, normalizeDomain, isDefaultDomain, isDomainWhitelisted,
+// domainToMatchPattern, contentScriptId) are provided by shared.js,
+// which is loaded first (see popup.html).
 
 // Initialize storage with default values if needed
 ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
@@ -11,12 +12,6 @@ ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
     ext.storage.sync.set({ githubDomains: [] });
 });
 
-const DEFAULT_DOMAINS = [
-  'github.com', 'gist.github.com', '*.github.com', '*.github.io'
-];
-
-const normalizeDomain = d => d.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, '').toLowerCase();
-const isDefaultDomain = d => DEFAULT_DOMAINS.some(dom => dom.startsWith('*.') ? normalizeDomain(d).endsWith(dom.slice(2)) : normalizeDomain(d) === dom);
 const isValidDomain = d => /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d);
 const getDomainError = (d, list) =>
   !d || !isValidDomain(d) ? "Please enter a valid URL."
@@ -25,23 +20,54 @@ const getDomainError = (d, list) =>
   : null;
 const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
 
-// --- Check if domain is whitelisted (default or custom) ---
-function isDomainWhitelisted(domain, whitelist) {
-  const normalized = normalizeDomain(domain);
-  if (isDefaultDomain(normalized)) return true;
-  if (Array.isArray(whitelist))
-    return whitelist.some(wd => {
-      const nwd = normalizeDomain(wd);
-      return nwd.startsWith('*.') ? normalized.endsWith(nwd.slice(2)) : normalized === nwd;
-    });
-  return false;
-}
-
-// --- Helper to notify all tabs (including custom TLDs) ---
+// --- Helper to notify all tabs (including custom domains) ---
 function notifyAllTabs(msg) {
   ext.tabs.query({}, tabs => {
     for (const tab of tabs) {
       ext.tabs.sendMessage(tab.id, msg, () => { void ext.runtime.lastError; });
+    }
+  });
+}
+
+// --- Register the content script for a custom domain (idempotent) ---
+function ensureDomainScript(domain, callback) {
+  const id = contentScriptId(domain);
+  ext.scripting.getRegisteredContentScripts({ ids: [id] }, existing => {
+    if (ext.runtime.lastError || (existing && existing.length > 0)) {
+      if (callback) callback();
+      return;
+    }
+    ext.scripting.registerContentScripts([{
+      id: id,
+      matches: [domainToMatchPattern(domain)],
+      css: ['style.css'],
+      js: ['shared.js', 'handler.js'],
+      runAt: 'document_start',
+      persistAcrossSessions: true
+    }], () => {
+      void ext.runtime.lastError;
+      if (callback) callback();
+    });
+  });
+}
+
+// --- Request host permission for a domain ---
+// Must be called synchronously from a user gesture (click / keydown)
+function requestDomainPermission(domain, callback) {
+  ext.permissions.request({ origins: [domainToMatchPattern(domain)] }, granted => {
+    if (ext.runtime.lastError) { callback(false); return; }
+    callback(!!granted);
+  });
+}
+
+// --- Apply the wide layout immediately to already-open tabs of a domain ---
+// Registered content scripts only run on future page loads, so tabs that are
+// already open when the permission is granted need a manual injection
+function applyToOpenTabs(domain) {
+  ext.tabs.query({ url: domainToMatchPattern(domain) }, tabs => {
+    for (const tab of tabs) {
+      ext.scripting.insertCSS({ target: { tabId: tab.id }, files: ['style.css'] }, () => { void ext.runtime.lastError; });
+      ext.scripting.executeScript({ target: { tabId: tab.id }, files: ['shared.js', 'handler.js'] }, () => { void ext.runtime.lastError; });
     }
   });
 }
@@ -60,14 +86,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const quickAddBtn = document.getElementById('quick-add-domain-btn');
   let currentDomains = [];
   let currentTabHost = null;
+  let storageLoaded = false;
 
   // --- Update current domain display ---
+  // The section is only useful as a nudge for unsupported domains:
+  // it stays hidden when the current site is already covered
   function updateCurrentDomainDisplay() {
-    if (!currentTabHost) return;
+    if (!currentTabHost || !storageLoaded) return;
     const isSupported = isDomainWhitelisted(currentTabHost, currentDomains);
+    if (isSupported) { currentDomainSection.style.display = 'none'; return; }
     currentDomainName.textContent = currentTabHost;
-    currentDomainStatus.textContent = isSupported ? '✓ Supported' : '⚠ Not configured';
-    quickAddBtn.style.display = isSupported ? 'none' : 'block';
+    currentDomainStatus.textContent = '⚠ Not configured';
+    currentDomainStatus.className = 'status-warn';
+    quickAddBtn.style.display = 'block';
     currentDomainSection.style.display = 'block';
   }
 
@@ -75,10 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
   ext.tabs.query({ active: true, currentWindow: true }, tabs => {
     if (tabs[0]) {
       try {
-        const url = new URL(tabs[0].url);
-        currentTabHost = url.hostname;
-        // Try to update immediately if storage already loaded, otherwise wait for storage callback
-        if (currentDomains.length >= 0) updateCurrentDomainDisplay();
+        currentTabHost = new URL(tabs[0].url).hostname;
+        // The display is updated here if storage already loaded,
+        // otherwise by the storage callback below
+        updateCurrentDomainDisplay();
       } catch (e) {
         // Ignore invalid URLs (e.g., chrome://, about:)
       }
@@ -102,17 +133,42 @@ document.addEventListener('DOMContentLoaded', () => {
         span.className = 'domain-name-fade';
         span.textContent = d;
 
+        const grantBtn = document.createElement('button');
+        grantBtn.className = 'grant-btn';
+        grantBtn.dataset.domain = d;
+        grantBtn.textContent = '⚠';
+        grantBtn.title = 'Permission needed: click to enable Wide GitHub on this domain';
+        grantBtn.setAttribute('aria-label', `Grant permission for ${d}`);
+        grantBtn.style.display = 'none';
+
         const btn = document.createElement('button');
         btn.className = 'delete-btn';
         btn.dataset.domain = d;
         btn.textContent = '×';
+        btn.setAttribute('aria-label', `Remove ${d}`);
 
         li.appendChild(span);
+        li.appendChild(grantBtn);
         li.appendChild(btn);
         domainList.appendChild(li);
       }
     });
+    refreshDomainPermissions();
   };
+
+  // --- Sync domain rows with granted host permissions ---
+  // Shows a warning button next to domains whose host permission is missing
+  // (e.g. after an update or a settings sync to a new device) and makes sure
+  // the content script is registered for domains that already have it
+  function refreshDomainPermissions() {
+    domainList.querySelectorAll('.grant-btn').forEach(grantBtn => {
+      const domain = grantBtn.dataset.domain;
+      ext.permissions.contains({ origins: [domainToMatchPattern(domain)] }, granted => {
+        grantBtn.style.display = granted ? 'none' : 'block';
+        if (granted) ensureDomainScript(domain);
+      });
+    });
+  }
 
   // --- Add button state and validation ---
   function updateAddButtonState(showErrorMsg = false) {
@@ -129,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     wideToggle.checked = result.wideEnabled !== false;
     updateWideLabel();
     currentDomains = (result.githubDomains || []).map(normalizeDomain);
+    storageLoaded = true;
     renderDomains(currentDomains);
     updateCurrentDomainDisplay();
     updateAddButtonState();
@@ -148,19 +205,31 @@ document.addEventListener('DOMContentLoaded', () => {
   addDomainBtn.addEventListener('click', tryAddDomain);
   domainInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryAddDomain(); });
 
-  // --- Domain removal ---
+  // --- Domain removal and permission re-grant ---
   domainList.addEventListener('click', e => {
+    const domain = e.target.dataset.domain;
+    if (!domain) return;
     if (e.target.classList.contains('delete-btn')) {
-      const domain = e.target.dataset.domain;
       ext.storage.sync.get('githubDomains', result => {
-        let domains = (result.githubDomains || []).map(normalizeDomain).filter(d => d !== domain);
+        const domains = (result.githubDomains || []).map(normalizeDomain).filter(d => d !== domain);
         ext.storage.sync.set({ githubDomains: domains }, () => {
+          ext.scripting.unregisterContentScripts({ ids: [contentScriptId(domain)] }, () => { void ext.runtime.lastError; });
+          ext.permissions.remove({ origins: [domainToMatchPattern(domain)] }, () => { void ext.runtime.lastError; });
           currentDomains = domains;
           renderDomains(domains);
           updateAddButtonState();
           updateCurrentDomainDisplay();
           notifyAllTabs({ wideUpdate: true });
         });
+      });
+    } else if (e.target.classList.contains('grant-btn')) {
+      requestDomainPermission(domain, granted => {
+        if (granted) {
+          ensureDomainScript(domain);
+          applyToOpenTabs(domain);
+          e.target.style.display = 'none';
+          notifyAllTabs({ wideUpdate: true });
+        }
       });
     }
   });
@@ -174,11 +243,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Add domain logic ---
+  // The domain is saved to storage BEFORE requesting the host permission:
+  // the browser may close the popup to show the permission prompt, killing
+  // this script mid-flow. With storage-first, reopening the popup always
+  // shows a consistent state (the domain is listed, with ⚠ if the
+  // permission is still missing, ready to be granted with a click).
   function tryAddDomain() {
     const raw = domainInput.value.trim(), domain = normalizeDomain(raw), error = getDomainError(domain, currentDomains);
     if (error) { showError(error); updateAddButtonState(); return; }
     ext.storage.sync.get('githubDomains', result => {
-      let domains = (result.githubDomains || []).map(normalizeDomain);
+      const domains = (result.githubDomains || []).map(normalizeDomain);
       const duplicateError = getDomainError(domain, domains);
       if (duplicateError) { showError(duplicateError); updateAddButtonState(); return; }
       domains.push(domain);
@@ -189,7 +263,14 @@ document.addEventListener('DOMContentLoaded', () => {
         hideError();
         updateAddButtonState();
         updateCurrentDomainDisplay();
-        notifyAllTabs({ wideUpdate: true });
+        requestDomainPermission(domain, granted => {
+          if (granted) {
+            ensureDomainScript(domain);
+            applyToOpenTabs(domain);
+          } else {
+            showError("Permission not granted: click ⚠ next to the domain to retry.");
+          }
+        });
       });
     });
   }

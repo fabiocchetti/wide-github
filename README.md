@@ -4,7 +4,7 @@
 
 **Wide GitHub** is a browser extension that makes GitHub’s layout wide, enhancing readability, reducing vertical scrolling, and improving accessibility.
 
-It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 109+ and Chrome Manifest V3 supported).
+It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 127+ and Chrome Manifest V3 supported).
 
 <a href="https://addons.mozilla.org/en-US/firefox/addon/widegithub/">
   <img src="assets/Wide-GitHub_Firefox-Badge.png" alt="Get it on Firefox Add-ons" width="129" height="45" />
@@ -54,6 +54,9 @@ You can add custom domains where you want the wide layout to be applied:
 1. Click the extension icon
 2. Enter the domain in the input field (e.g., `git.mycompany.com`)
 3. Click "Add" or press Enter
+4. Confirm the browser's permission request for that domain
+
+Access to each custom domain is optional and is requested only when you add it; removing a domain from the list also revokes the permission. If the browser closes the popup to show the permission request, just reopen it: the domain is already in the list. If a domain shows a ⚠ button (e.g. after an update, a declined permission, or a settings sync to a new device), click it to grant the permission again.
 
 The extension will automatically handle:
 - Subdomains (e.g., `docs.github.com`)
@@ -110,6 +113,15 @@ For details about how Wide GitHub handles your data and permissions, please see 
 ---
 
 ## Changelog
+
+**3.5.0**
+- Reworked the permissions model: the extension no longer requests access to all websites at install time. Access to custom domains is now optional and requested only when you add a domain, and is revoked when the domain is removed.
+- Custom domains now activate immediately on already-open tabs, without requiring a page reload.
+- Popup: added a ⚠ button to re-grant a missing domain permission (e.g. after an update or syncing settings to a new device).
+- Popup: the current-domain section is now shown only when the site is not yet supported. Also improved accessibility (keyboard focus and ARIA labels) and dark mode contrast.
+- Fixed domain-matching false positives (e.g. `notgithub.com` no longer matches `*.github.com`).
+- Fixed the flicker-prevention CSS, which was not being applied, and a MutationObserver stacking issue.
+- Performance: throttled layout updates and removed dead code. Custom domains now require Firefox 127+.
 
 **3.4.0**
 - Fixed PR discussion content wrapper ([Issue 40](https://github.com/fabiocchetti/wide-github/pull/40), thanks to [@e1four15f](https://github.com/e1four15f)).

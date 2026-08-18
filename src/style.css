@@ -1,11 +1,8 @@
-/* Prevent flicker */
-html[data-wide-github-init] body {
+/* Prevent flicker: hide the page while the layout state is being evaluated.
+   The data-wide-github-init attribute is set by handler.js at document_start
+   and removed as soon as the is-wide-github-enabled class is applied (or not). */
+html[data-wide-github-init]:not(.is-wide-github-enabled) body {
   opacity: 0 !important;
-  transition: none !important;
-}
-html.is-wide-github-enabled body,
-html:not(.is-wide-github-enabled)[data-wide-github-init] body {
-  opacity: 1 !important;
   transition: none !important;
 }
 
@@ -14,15 +11,6 @@ html:not(.is-wide-github-enabled)[data-wide-github-init] body {
 html.is-wide-github-enabled .application-main .container-lg,
 html.is-wide-github-enabled .footer.container-lg {
   margin-left: 0 !important;
-  max-width: none !important;
-}
-
-html.is-wide-github-enabled .application-main .container-lg {
-  margin-left: 0 !important;
-  max-width: none !important;
-}
-
-html.is-wide-github-enabled .application-main .container-xl {
   max-width: none !important;
 }
 

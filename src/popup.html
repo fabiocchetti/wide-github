@@ -14,6 +14,11 @@
       --item-fg: #222;
       --delete-fg: #d73a49;
       --hr: #333;
+      --accent: #388bfd;
+      --accent-hover: #1f6feb;
+      --danger: #d73a49;
+      --warning: #d29922;
+      --muted: #6a737d;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -26,6 +31,10 @@
         --item-fg: #eee;
         --delete-fg: #ff7b72;
         --hr: #e1e4e8;
+        --accent-hover: #58a6ff;
+        --danger: #ff7b72;
+        --warning: #e3b341;
+        --muted: #8b949e;
       }
     }
     body {
@@ -72,6 +81,9 @@
       color: var(--fg);
       margin-bottom: 2px;
     }
+    #wide-label {
+      cursor: pointer;
+    }
     .switch {
       display: inline-block;
       position: relative;
@@ -100,8 +112,12 @@
       border-radius: 50%;
       transition: .4s;
     }
+    input:focus-visible + .slider {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
     input:checked + .slider {
-      background-color: #388bfd;
+      background-color: var(--accent);
     }
     input:checked + .slider:before {
       transform: translateX(18px);
@@ -110,7 +126,7 @@
       margin-top: 10px;
     }
     .domain-desc {
-      color: #888;
+      color: var(--muted);
       font-size: 11px;
       line-height: 1.4;
       margin: 2px 0 8px 0;
@@ -134,11 +150,11 @@
       color: var(--input-fg);
     }
     #domain-input.error {
-      border-color: #d73a49;
+      border-color: var(--danger);
     }
     #add-domain-btn,
     .quick-add-btn {
-      background: #388bfd;
+      background: var(--accent);
       color: #fff;
       border: none;
       border-radius: 4px;
@@ -150,6 +166,10 @@
       text-transform: uppercase;
       transition: background 0.15s;
     }
+    #add-domain-btn:hover:not(:disabled),
+    .quick-add-btn:hover:not(:disabled) {
+      background: var(--accent-hover);
+    }
     #add-domain-btn:disabled,
     .quick-add-btn:disabled {
       background: #bbb;
@@ -160,11 +180,17 @@
       margin-top: 4px;
     }
     .error-message {
-      color: #d73a49;
+      color: var(--danger);
       font-size: 13px;
       margin: 2px 0 0 0;
       min-height: 16px;
       display: none;
+    }
+    #current-domain-status {
+      color: var(--muted);
+    }
+    #current-domain-status.status-warn {
+      color: var(--warning);
     }
     #domain-list {
       list-style: none;
@@ -177,7 +203,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 4px;
       background: var(--item-bg);
       border-radius: 4px;
       font-size: 13px;
@@ -209,14 +235,34 @@
       border: none;
       color: var(--delete-fg);
       font-size: 16px;
-      margin-left: 6px;
-      padding: 0 3px;
+      padding: 0 2px;
       cursor: pointer;
       flex-shrink: 0;
+    }
+    .domain-item button.grant-btn {
+      background: none;
+      border: none;
+      color: var(--warning);
+      font-size: 14px;
+      padding: 0 2px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .domain-item button.delete-btn:hover,
+    .domain-item button.grant-btn:hover {
+      opacity: 0.7;
     }
     @media (prefers-color-scheme: dark) {
       .domain-name-fade:after {
         background: linear-gradient(to right, rgba(35,39,46,0), var(--item-bg) 100%);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slider,
+      .slider:before,
+      #add-domain-btn,
+      .quick-add-btn {
+        transition: none;
       }
     }
   </style>
@@ -228,17 +274,16 @@
   </div>
   <hr>
   <div class="toggle-row">
-    <span class="section-label" id="wide-label">Enable wide layout</span>
+    <label class="section-label" id="wide-label" for="wide-toggle">Enable wide layout</label>
     <label class="switch">
       <input type="checkbox" id="wide-toggle" />
       <span class="slider"></span>
     </label>
   </div>
   <div class="current-domain-section" id="current-domain-section" style="display: none;">
-    <span class="section-label">Current domain</span>
     <div style="font-size: 12px; padding: 6px; background: var(--item-bg); border-radius: 4px; margin-bottom: 8px;">
       <span id="current-domain-name" style="word-break: break-all;">—</span>
-      <div id="current-domain-status" style="font-size: 11px; color: #888; margin-top: 4px;"></div>
+      <div id="current-domain-status" style="font-size: 11px; margin-top: 4px;"></div>
       <button id="quick-add-domain-btn" class="quick-add-btn" style="display: none;" title="Add current domain to custom list">Add this domain</button>
     </div>
   </div>
@@ -254,6 +299,7 @@
     <div class="error-message" id="domain-error"></div>
     <ul id="domain-list"></ul>
   </div>
+  <script src="shared.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

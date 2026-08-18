@@ -16,9 +16,9 @@ The extension only stores the following information **locally in your browser** 
 
 No other data is collected, accessed, or transmitted by the extension.
 
->Why does Wide GitHub request access to all websites?
+>Why can Wide GitHub request access to other websites?
 >
->To support custom GitHub Enterprise or self-hosted domains, Wide GitHub needs permission to run on any URL. This allows you to add any domain where you want the wide layout to be applied. The extension does not collect, transmit, or access any personal data or browsing history—permissions are used only to inject the wide layout on the domains you specify.
+>By default, Wide GitHub only runs on GitHub, Gist, and GitHub Pages. To support GitHub Enterprise or self-hosted instances, you can add custom domains in the extension popup: only then does the extension ask your permission to access that specific domain, and the wide layout is applied there. The extension does not collect, transmit, or access any personal data or browsing history—permissions are used only to inject the wide layout on the domains you specify.
 
 ---
 
@@ -47,8 +47,9 @@ No data is ever sold, transferred, or used for advertising or analytics.
 Wide GitHub requests the following permissions:
 
 - **Storage**: To save your extension preferences and custom domains.
-- **Host permissions**: To apply the wide layout on GitHub, Gist, GitHub Pages, and any custom domains you specify.
-- **activeTab**: To enable or disable the wide layout on the current tab after user interaction.
+- **Scripting**: To register the wide layout on custom domains you add.
+- **activeTab**: To detect the domain of the current tab when you open the extension popup, so it can show whether that site is supported and offer to add it.
+- **Host permissions**: By default the extension runs only on GitHub, Gist, and GitHub Pages. Access to any other website is optional and is requested only when you add a custom domain in the popup; it can be revoked at any time by removing the domain.
 
 These permissions are used **only** to provide the extension’s intended functionality and never for tracking, profiling, or collecting personal information.
 
@@ -66,4 +67,4 @@ If you have any questions or concerns about this privacy policy or the extension
 
 ---
 
-_Last updated: May 25, 2025_
+_Last updated: August 7, 2026_
