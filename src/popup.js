@@ -1,16 +1,8 @@
 "use strict";
 
 // Shared helpers (ext, normalizeDomain, isDefaultDomain, isDomainWhitelisted,
-// domainToMatchPattern, contentScriptId) are provided by shared.js,
+// domainToMatchPattern, contentScriptId, getSettings) are provided by shared.js,
 // which is loaded first (see popup.html).
-
-// Initialize storage with default values if needed
-ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
-  if (result.wideEnabled === undefined)
-    ext.storage.sync.set({ wideEnabled: true });
-  if (!result.githubDomains)
-    ext.storage.sync.set({ githubDomains: [] });
-});
 
 const isValidDomain = d => /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d);
 const getDomainError = (d, list) =>
@@ -52,7 +44,9 @@ function ensureDomainScript(domain, callback) {
 }
 
 // --- Request host permission for a domain ---
-// Must be called synchronously from a user gesture (click / keydown)
+// Must be called synchronously from a user gesture: Firefox rejects
+// permissions.request() outside of user-input handling, so it cannot wait for a
+// callback (a storage read, for instance) first.
 function requestDomainPermission(domain, callback) {
   ext.permissions.request({ origins: [domainToMatchPattern(domain)] }, granted => {
     if (ext.runtime.lastError) { callback(false); return; }
@@ -61,13 +55,18 @@ function requestDomainPermission(domain, callback) {
 }
 
 // --- Apply the wide layout immediately to already-open tabs of a domain ---
-// Registered content scripts only run on future page loads, so tabs that are
-// already open when the permission is granted need a manual injection
+// Registered content scripts only run on future page loads. Each tab is pinged
+// first: one that answers already has a handler (the ping refreshes it), one
+// that does not gets the scripts injected.
 function applyToOpenTabs(domain) {
   ext.tabs.query({ url: domainToMatchPattern(domain) }, tabs => {
+    if (ext.runtime.lastError || !tabs) return;
     for (const tab of tabs) {
-      ext.scripting.insertCSS({ target: { tabId: tab.id }, files: ['style.css'] }, () => { void ext.runtime.lastError; });
-      ext.scripting.executeScript({ target: { tabId: tab.id }, files: ['shared.js', 'handler.js'] }, () => { void ext.runtime.lastError; });
+      ext.tabs.sendMessage(tab.id, { wideUpdate: true }, response => {
+        if (!ext.runtime.lastError && response) return;
+        ext.scripting.insertCSS({ target: { tabId: tab.id }, files: ['style.css'] }, () => { void ext.runtime.lastError; });
+        ext.scripting.executeScript({ target: { tabId: tab.id }, files: ['shared.js', 'handler.js'] }, () => { void ext.runtime.lastError; });
+      });
     }
   });
 }
@@ -122,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const hideError = () => { errorDiv.textContent = ''; errorDiv.style.display = 'none'; domainInput.classList.remove('error'); };
 
   // --- SAFE rendering of domains (NO innerHTML) ---
-  const renderDomains = domains => {
+  const renderDomains = (domains, syncOpenTabs) => {
     domainList.innerHTML = '';
     domains.forEach(d => {
       if (!isDefaultDomain(d)) {
@@ -153,19 +152,40 @@ document.addEventListener('DOMContentLoaded', () => {
         domainList.appendChild(li);
       }
     });
-    refreshDomainPermissions();
+    refreshDomainPermissions(syncOpenTabs);
   };
 
   // --- Sync domain rows with granted host permissions ---
   // Shows a warning button next to domains whose host permission is missing
-  // (e.g. after an update or a settings sync to a new device) and makes sure
-  // the content script is registered for domains that already have it
-  function refreshDomainPermissions() {
+  // (e.g. after an update or a settings sync to a new device) and registers the
+  // content script for those that have it. syncOpenTabs also pushes the layout
+  // into open tabs; only set on popup open, since doing it on every re-render
+  // would message every tab of every domain on each add or delete.
+  function refreshDomainPermissions(syncOpenTabs) {
     domainList.querySelectorAll('.grant-btn').forEach(grantBtn => {
       const domain = grantBtn.dataset.domain;
       ext.permissions.contains({ origins: [domainToMatchPattern(domain)] }, granted => {
         grantBtn.style.display = granted ? 'none' : 'block';
-        if (granted) ensureDomainScript(domain);
+        if (!granted) return;
+        ensureDomainScript(domain);
+        if (syncOpenTabs) applyToOpenTabs(domain);
+      });
+    });
+  }
+
+  // --- Finish an add that the permission prompt interrupted ---
+  // The prompt can close the popup, killing this script before the domain
+  // reaches storage. Only the domain tryAddDomain() recorded is adopted, never a
+  // permission granted through the browser's own site-access UI.
+  function reconcilePendingDomain() {
+    ext.storage.local.get('pendingDomain', result => {
+      const pending = result && result.pendingDomain ? normalizeDomain(result.pendingDomain) : null;
+      if (!pending) return;
+      if (currentDomains.includes(pending)) { ext.storage.local.remove('pendingDomain'); return; }
+      ext.permissions.contains({ origins: [domainToMatchPattern(pending)] }, granted => {
+        ext.storage.local.remove('pendingDomain');
+        if (ext.runtime.lastError || !granted) return;
+        storeDomain(pending, true);
       });
     });
   }
@@ -181,14 +201,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const debouncedError = debounce(() => updateAddButtonState(true), 2000);
 
   // --- Initial load from storage ---
-  ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
-    wideToggle.checked = result.wideEnabled !== false;
+  getSettings(settings => {
+    wideToggle.checked = settings.wideEnabled !== false;
     updateWideLabel();
-    currentDomains = (result.githubDomains || []).map(normalizeDomain);
+    currentDomains = settings.githubDomains.map(normalizeDomain);
     storageLoaded = true;
-    renderDomains(currentDomains);
+    renderDomains(currentDomains, true);
     updateCurrentDomainDisplay();
     updateAddButtonState();
+    reconcilePendingDomain();
   });
 
   // --- Wide toggle logic ---
@@ -243,19 +264,22 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Add domain logic ---
-  // The domain is saved to storage BEFORE requesting the host permission:
-  // the browser may close the popup to show the permission prompt, killing
-  // this script mid-flow. With storage-first, reopening the popup always
-  // shows a consistent state (the domain is listed, with ⚠ if the
-  // permission is still missing, ready to be granted with a click).
+  // The permission is requested first, straight from the gesture (see
+  // requestDomainPermission). If the prompt closes the popup before the domain
+  // is stored, reconcilePendingDomain() finishes the add on the next open.
   function tryAddDomain() {
     const raw = domainInput.value.trim(), domain = normalizeDomain(raw), error = getDomainError(domain, currentDomains);
     if (error) { showError(error); updateAddButtonState(); return; }
+    // Recorded without awaiting the write, so the request stays in the gesture
+    ext.storage.local.set({ pendingDomain: domain });
+    requestDomainPermission(domain, granted => storeDomain(domain, granted));
+  }
+
+  function storeDomain(domain, granted) {
+    ext.storage.local.remove('pendingDomain');
     ext.storage.sync.get('githubDomains', result => {
       const domains = (result.githubDomains || []).map(normalizeDomain);
-      const duplicateError = getDomainError(domain, domains);
-      if (duplicateError) { showError(duplicateError); updateAddButtonState(); return; }
-      domains.push(domain);
+      if (!domains.includes(domain)) domains.push(domain);
       ext.storage.sync.set({ githubDomains: domains }, () => {
         currentDomains = domains;
         renderDomains(domains);
@@ -263,14 +287,13 @@ document.addEventListener('DOMContentLoaded', () => {
         hideError();
         updateAddButtonState();
         updateCurrentDomainDisplay();
-        requestDomainPermission(domain, granted => {
-          if (granted) {
-            ensureDomainScript(domain);
-            applyToOpenTabs(domain);
-          } else {
-            showError("Permission not granted: click ⚠ next to the domain to retry.");
-          }
-        });
+        if (granted) {
+          ensureDomainScript(domain);
+          applyToOpenTabs(domain);
+          notifyAllTabs({ wideUpdate: true });
+        } else {
+          showError("Permission not granted: click ⚠ next to the domain to retry.");
+        }
       });
     });
   }

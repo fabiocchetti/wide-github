@@ -124,7 +124,10 @@ html.is-wide-github-enabled .container-md {
   max-width: 100% !important;
 }
 
-/* Repository code page */
-html.is-wide-github-enabled .prc-PageLayout-Content-xWL-A:where([data-width="large"]) {
+/* Repository code page and Projects tab. Only the large and xlarge variants are
+   widened, so deliberately narrow layouts keep their width. Matched by class
+   prefix because the suffix is a build hash. */
+html.is-wide-github-enabled [class^="prc-PageLayout-Content-"]:where([data-width="large"], [data-width="xlarge"]),
+html.is-wide-github-enabled [class^="SidebarPageLayout-module__HeaderInner__"]:where([data-width="large"], [data-width="xlarge"]) {
   max-width: 100% !important;
 }

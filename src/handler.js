@@ -1,85 +1,96 @@
 "use strict";
 
-// Shared helpers (ext, isDomainWhitelisted, ...) are provided by shared.js,
-// which is loaded first (see the "js" array in the manifests).
-
-// Prevent flicker: hide body until layout is evaluated
-document.documentElement.setAttribute('data-wide-github-init', '');
-
-// --- Apply or remove wide layout class ---
-function setWideLayout(enabled) {
-  document.documentElement.classList.toggle('is-wide-github-enabled', !!enabled);
-  document.documentElement.removeAttribute('data-wide-github-init');
-}
-
-// --- Main logic: update layout based on settings and domain ---
-function updateWideLayout() {
-  const currentDomain = window.location.hostname;
-  ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
-    const enabled = isDomainWhitelisted(currentDomain, result.githubDomains) &&
-      result.wideEnabled !== false;
-    setWideLayout(enabled);
-  });
-}
-
-// Throttled variant for high-frequency events (DOM mutations): coalesces
-// bursts of mutations into a single storage read + class update
-let updateScheduled = false;
-function scheduleUpdate() {
-  if (updateScheduled) return;
-  updateScheduled = true;
-  setTimeout(() => {
-    updateScheduled = false;
-    updateWideLayout();
-  }, 50);
-}
-
-// Initialize storage with default values if needed and run updateWideLayout after
-ext.storage.sync.get(['wideEnabled', 'githubDomains'], result => {
-  if (result.wideEnabled === undefined)
-    ext.storage.sync.set({ wideEnabled: true });
-  if (!result.githubDomains)
-    ext.storage.sync.set({ githubDomains: [] });
-  // Run initial layout update after storage is ready
-  updateWideLayout();
-});
-
-// --- Listen for messages from popup ---
-ext.runtime.onMessage.addListener(msg => {
-  if (msg.wideEnabled !== undefined || msg.wideUpdate) {
-    scheduleUpdate();
+// Shared helpers (ext, isDomainWhitelisted, getSettings) are provided by
+// shared.js, which is loaded first (see the "js" array in the manifests).
+//
+// This can run twice in the same document: popup.js re-injects it to reach tabs
+// that are already open, and an extension reload leaves the previous run behind
+// with a dead context. Any previous instance is replaced rather than detected.
+(() => {
+  const previous = window.__wideGitHub;
+  if (previous) {
+    try { previous.dispose(); } catch (e) { /* previous context already gone */ }
   }
-});
 
-// --- SPA navigation and URL change detection ---
-let lastUrl = location.href;
-function checkUrlChange() {
-  if (location.href !== lastUrl) {
-    lastUrl = location.href;
-    updateWideLayout();
+  // Prevent flicker: hide the page until the layout state is known, with a
+  // failsafe so it can never stay hidden if the settings never arrive.
+  const FLICKER_GUARD_MS = 1000;
+  document.documentElement.setAttribute('data-wide-github-init', '');
+  const flickerFailsafe = setTimeout(revealPage, FLICKER_GUARD_MS);
+
+  function revealPage() {
+    clearTimeout(flickerFailsafe);
+    document.documentElement.removeAttribute('data-wide-github-init');
   }
-}
 
-new MutationObserver(checkUrlChange).observe(document, { subtree: true, childList: true });
-window.addEventListener('popstate', checkUrlChange);
+  // The result depends only on the hostname and these two values, so once they
+  // are cached the hot path is a classList.toggle and never touches storage.
+  let settings = null;
+  let classObserver = null;
 
-// GitHub re-renders the .application-main container on SPA navigation. Observe
-// it once found, replacing the previous observer instead of stacking new ones.
-let mainObserver = null;
-function observeMainContent() {
-  const main = document.querySelector('.application-main');
-  if (!main) return;
-  mainFinder.disconnect();
-  if (mainObserver) mainObserver.disconnect();
-  mainObserver = new MutationObserver(scheduleUpdate);
-  mainObserver.observe(main, { childList: true, subtree: true });
-}
+  function applyLayout() {
+    if (!settings) return;
+    const enabled = settings.wideEnabled !== false &&
+      isDomainWhitelisted(window.location.hostname, settings.githubDomains);
+    document.documentElement.classList.toggle('is-wide-github-enabled', enabled);
+    revealPage();
+  }
 
-// At document_start .application-main does not exist yet: watch the document
-// until it appears (it is a persistent container, so this can then stop)
-const mainFinder = new MutationObserver(observeMainContent);
-mainFinder.observe(document.documentElement, { childList: true, subtree: true });
-observeMainContent();
+  function refreshFromStorage() {
+    try {
+      getSettings(loaded => { settings = loaded; applyLayout(); });
+    } catch (e) {
+      revealPage(); // context invalidated: nothing to apply, but do not stay hidden
+    }
+  }
 
-document.addEventListener('pjax:end', updateWideLayout);
-document.addEventListener('DOMContentLoaded', updateWideLayout);
+  // Re-read rather than trust the delta: a change can land while the first read
+  // is still in flight. Settings change rarely enough for this to be free.
+  function onStorageChanged(changes, area) {
+    if (area === 'sync') refreshFromStorage();
+  }
+
+  // Answering also tells the popup a handler is live here, so it can skip
+  // re-injecting (see applyToOpenTabs in popup.js).
+  function onMessage(msg, sender, sendResponse) {
+    if (msg && (msg.wideEnabled !== undefined || msg.wideUpdate)) {
+      refreshFromStorage();
+      sendResponse({ ok: true });
+    }
+  }
+
+  function dispose() {
+    if (classObserver) classObserver.disconnect();
+    document.removeEventListener('turbo:load', applyLayout);
+    document.removeEventListener('pjax:end', applyLayout);
+    document.removeEventListener('DOMContentLoaded', applyLayout);
+    window.removeEventListener('popstate', applyLayout);
+    try { ext.storage.onChanged.removeListener(onStorageChanged); } catch (e) { /* context gone */ }
+    try { ext.runtime.onMessage.removeListener(onMessage); } catch (e) { /* context gone */ }
+  }
+
+  // Register nothing unless both listeners attach: a half-installed instance
+  // would look alive to the next injection while applying nothing.
+  try {
+    ext.storage.onChanged.addListener(onStorageChanged);
+    ext.runtime.onMessage.addListener(onMessage);
+  } catch (e) {
+    revealPage();
+    return;
+  }
+
+  // The stylesheet is static and keyed off the class, so re-renders cannot
+  // invalidate the layout — only losing the class can. Toggling to the value
+  // already set is a no-op, so this cannot loop.
+  classObserver = new MutationObserver(applyLayout);
+  classObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+  document.addEventListener('turbo:load', applyLayout);
+  document.addEventListener('pjax:end', applyLayout);
+  document.addEventListener('DOMContentLoaded', applyLayout);
+  window.addEventListener('popstate', applyLayout);
+
+  window.__wideGitHub = { dispose: dispose };
+
+  refreshFromStorage();
+})();

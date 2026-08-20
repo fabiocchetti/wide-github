@@ -9,7 +9,7 @@ We value your privacy and are committed to protecting your data. This policy exp
 
 Wide GitHub **does not collect, transmit, or store any personal data or browsing history** outside of your own browser.
 
-The extension only stores the following information **locally in your browser** or synchronizes it via your browser’s built-in sync features (such as Chrome Sync or Firefox Sync):
+The extension only stores the following information **locally in your browser** or synchronizes it via your browser’s built-in sync features (such as Chrome Sync, Edge Sync or Firefox Sync):
 
 - Whether the wide layout is enabled or disabled
 - The list of custom domains you have added

@@ -4,7 +4,7 @@
 
 **Wide GitHub** is a browser extension that makes GitHub’s layout wide, enhancing readability, reducing vertical scrolling, and improving accessibility.
 
-It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 127+ and Chrome Manifest V3 supported).
+It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 128+, and Chrome/Edge with Manifest V3 supported).
 
 <a href="https://addons.mozilla.org/en-US/firefox/addon/widegithub/">
   <img src="assets/Wide-GitHub_Firefox-Badge.png" alt="Get it on Firefox Add-ons" width="129" height="45" />
@@ -21,7 +21,7 @@ It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 1
 - Makes GitHub's layout wide and accessible.
 - Supports custom domains (e.g. GitHub Enterprise).
 - Toggle on/off with a single click.
-- Syncs settings across devices (Firefox Sync / Chrome Sync).
+- Syncs settings across devices (Firefox Sync / Chrome Sync / Edge Sync).
 - Handles SPA navigation and tab switches.
 - Easy preferences and URLs management via settings popup.
 
@@ -56,7 +56,7 @@ You can add custom domains where you want the wide layout to be applied:
 3. Click "Add" or press Enter
 4. Confirm the browser's permission request for that domain
 
-Access to each custom domain is optional and is requested only when you add it; removing a domain from the list also revokes the permission. If the browser closes the popup to show the permission request, just reopen it: the domain is already in the list. If a domain shows a ⚠ button (e.g. after an update, a declined permission, or a settings sync to a new device), click it to grant the permission again.
+Access to each custom domain is optional and is requested only when you add it; removing a domain from the list also revokes the permission. If the browser closes the popup to show the permission request, just reopen it: if you granted access, the domain is already in the list. If a domain shows a ⚠ button (e.g. after an update, a declined permission, or a settings sync to a new device), click it to grant the permission again.
 
 The extension will automatically handle:
 - Subdomains (e.g., `docs.github.com`)
@@ -80,13 +80,13 @@ chmod +x build.sh package.sh
 
 ### Build
 
-To build the extension for both browsers:
+To build the extension for all supported browsers:
 
 ```sh
 ./build.sh
 ```
 
-This will generate the folders `dist/firefox` and `dist/chrome` with the ready-to-use extension files.
+This will generate the folders `dist/firefox`, `dist/chrome` and `dist/edge` with the ready-to-use extension files.
 
 ### Package
 
@@ -96,7 +96,7 @@ To create ZIP files for release (excluding system and dev files):
 ./package.sh
 ```
 
-This will create `wide-github-firefox.zip` and `wide-github-chrome.zip` in the project root, ready for upload to the stores.
+This will create `wide-github-firefox.zip`, `wide-github-chrome.zip` and `wide-github-edge.zip` in the project root, ready for upload to the stores.
 
 ---
 
@@ -113,6 +113,16 @@ For details about how Wide GitHub handles your data and permissions, please see 
 ---
 
 ## Changelog
+
+**3.6.0**
+- Added support for Microsoft Edge.
+- Fixed adding custom domains on Firefox, which previously only worked through the ⚠ button.
+- Domains granted while the browser closed the popup are now saved on the next popup open.
+- Fixed a case where a page could stay blank if the settings failed to load.
+- Fixed re-adding a domain with its tab still open; adding a domain now updates open tabs too.
+- Repository "Projects" and "Issues" tabs are now full width.
+- Settings are cached and kept in sync via storage events, replacing per-mutation storage reads and both document-wide MutationObservers.
+- Custom domains now require Firefox 128+.
 
 **3.5.0**
 - Reworked the permissions model: the extension no longer requests access to all websites at install time. Access to custom domains is now optional and requested only when you add a domain, and is revoked when the domain is removed.
