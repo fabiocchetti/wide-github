@@ -2,3 +2,4 @@
 .idea/
 dist/
 wide-github-*.zip
+node_modules/

@@ -70,15 +70,15 @@ The extension will automatically handle:
 
 ## Development
 
-All source code is in the `src/` folder and is shared between Chrome and Firefox builds.  
-Manifest files are separate for each browser.
+All source code is in the `src/` folder and is shared between the Chrome, Firefox and Edge builds.  
+Manifest files are separate for each browser, and the tests live in `test/`.
 
 ### Setup
 
 If you just cloned the repository, make the build scripts executable:
 
 ```sh
-chmod +x build.sh package.sh
+chmod +x build.sh package.sh test.sh
 ```
 
 ### Build
@@ -90,6 +90,22 @@ To build the extension for all supported browsers:
 ```
 
 This will generate the folders `dist/firefox`, `dist/chrome` and `dist/edge` with the ready-to-use extension files.
+
+### Test
+
+To run the test suite:
+
+```sh
+./test.sh
+```
+
+The domain-matching and settings tests need nothing beyond Node. The `style.css`
+selector tests, which check the layout rules against fixtures taken from real
+GitHub markup, additionally need jsdom and skip themselves without it:
+
+```sh
+cd test && npm install
+```
 
 ### Package
 

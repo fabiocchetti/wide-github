@@ -1,0 +1,8 @@
+{
+  "name": "wide-github-tests",
+  "private": true,
+  "description": "Optional dependency for the style.css selector tests. The rest of the suite needs nothing.",
+  "dependencies": {
+    "jsdom": "^30.0.1"
+  }
+}
