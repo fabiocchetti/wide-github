@@ -13,6 +13,9 @@ It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 1
 <a href="https://chromewebstore.google.com/detail/wide-github/hohnneiphpemlbhmiiipkfjnfhmnobpo">
   <img src="assets/Wide-GitHub_Chrome-Badge.png" alt="Get it on Chrome Web Store" width="162" height="44" />
 </a>
+<br/>
+<!-- TODO: wrap in <a href="https://microsoftedge.microsoft.com/addons/detail/..."> once the listing is live -->
+<img src="assets/Wide-GitHub_Edge-Badge.png" alt="Get it on Edge Add-ons" width="148" height="44" />
 
 ---
 
