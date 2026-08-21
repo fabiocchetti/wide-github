@@ -14,8 +14,9 @@ It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 1
   <img src="assets/Wide-GitHub_Chrome-Badge.png" alt="Get it on Chrome Web Store" width="162" height="44" />
 </a>
 <br/>
-<!-- TODO: wrap in <a href="https://microsoftedge.microsoft.com/addons/detail/..."> once the listing is live -->
-<img src="assets/Wide-GitHub_Edge-Badge.png" alt="Get it on Edge Add-ons" width="148" height="44" />
+<a href="https://microsoftedge.microsoft.com/addons/detail/wide-github/knlkpiffilginhfpmliommpcelfplbgl">
+  <img src="assets/Wide-GitHub_Edge-Badge.png" alt="Get it on Edge Add-ons" width="148" height="44" />
+</a>
 
 ---
 
@@ -40,6 +41,11 @@ It works on GitHub, private Gists, GitHub Enterprise, and custom TLDs (Firefox 1
 ### Chrome
 1. Visit [Wide GitHub for Chrome](https://chromewebstore.google.com/detail/wide-github/hohnneiphpemlbhmiiipkfjnfhmnobpo)
 2. Click "Add to Chrome"
+3. Confirm the installation
+
+### Edge
+1. Visit [Wide GitHub for Edge](https://microsoftedge.microsoft.com/addons/detail/wide-github/knlkpiffilginhfpmliommpcelfplbgl)
+2. Click "Get"
 3. Confirm the installation
 
 ---
