@@ -64,3 +64,55 @@ github wide
 github enterprise
 full width
 ```
+
+## Permission Justifications
+
+**storage**
+```
+Stores two settings: whether the wide layout is on or off, and the list of custom domains the user has added. Kept in storage.sync so the preferences follow the user's own browser profile. No browsing history and no page content is stored.
+```
+
+**scripting**
+```
+Registers the wide-layout stylesheet on the custom domains the user adds from the popup. Those domains are a GitHub Enterprise or self-hosted address that cannot be known at install time, so the content script is registered at runtime and unregistered when the domain is removed.
+```
+
+**activeTab**
+```
+Reads the domain of the tab the user is currently viewing when the popup is opened, so the popup can say whether that site is already supported and offer to add it. No other tab is accessed and no page content is read.
+```
+
+**Host permissions (GitHub, Gist, GitHub Pages)**
+```
+The stylesheet that widens the layout must be injected into the GitHub page itself. Access is limited to github.com, gist.github.com, other github.com subdomains and github.io; no other site is matched at install time.
+```
+
+**Optional host permissions**
+```
+Requested at runtime, and only for the single domain the user types into the popup to support a GitHub Enterprise or self-hosted instance. It is never requested at install time and never broadly: a user who only visits github.com is never asked. Removing the domain from the list revokes the permission.
+```
+
+**Single purpose**
+```
+Make GitHub's layout use the full width of the browser window, on GitHub and on the GitHub Enterprise or self-hosted domains the user adds.
+```
+
+## Notes for Reviewers
+
+```
+No account or configuration is needed to review the extension: open any repository or pull request on github.com and the page content fills the window width. The toolbar popup switches the wide layout off and on again, and accepts a domain for a GitHub Enterprise or self-hosted instance.
+
+The extension is unminified and has no build step beyond copying the shared sources in src/ next to the browser's manifest: what is in the package is exactly what runs. There are no remote scripts, no eval and no network requests of any kind — the extension only injects a stylesheet and reads its own settings.
+
+Access to a custom domain is an optional permission, requested with permissions.request() at the click that adds the domain and revoked when the domain is removed, so a reviewer who adds no domain is never asked for anything beyond GitHub.
+
+Source: https://github.com/fabiocchetti/wide-github
+```
+
+## Screenshots
+
+In `assets/`, in upload order. `Wide-GitHub_Screenshot-Alt-Repo-1280x800.png` is an alternative to the first one.
+
+1. `GitHub using the full width of the window, instead of a narrow column`
+2. `The popup: one switch, plus the domains you add yourself`
+3. `The same popup in dark theme`
