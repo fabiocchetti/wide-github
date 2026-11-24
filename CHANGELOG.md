@@ -1,5 +1,8 @@
 # Changelog
 
+**3.6.1**
+- Support updated GitHub pull request layout.
+
 **3.6.0**
 - Added support for Microsoft Edge.
 - Fixed adding custom domains on Firefox, which previously only worked through the ⚠ button.

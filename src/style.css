@@ -119,6 +119,11 @@ html.is-wide-github-enabled [class^="prc-PageLayout-ContentWrapper-"] {
   max-width: 100% !important;
 }
 
+/* Pull requests overview */
+html.is-wide-github-enabled main div[class*="contentContainer__"] {
+  max-width: none !important;
+}
+
 /* Repository settings */
 html.is-wide-github-enabled .container-md {
   max-width: 100% !important;
