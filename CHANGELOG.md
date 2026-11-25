@@ -1,5 +1,9 @@
 # Changelog
 
+**3.6.2**
+- Fixed narrow layout for some signed-in users.
+- Improved support for upcoming GitHub layouts.
+
 **3.6.1**
 - Support updated GitHub pull request layout.
 

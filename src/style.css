@@ -8,13 +8,17 @@ html[data-wide-github-init]:not(.is-wide-github-enabled) body {
 
 /* Wide GitHub styles */
 
+/* Some signed-in users get a layout without .application-main (issue #41),
+   so containers inside <main> are matched as well. */
 html.is-wide-github-enabled .application-main .container-lg,
+html.is-wide-github-enabled main .container-lg,
 html.is-wide-github-enabled .footer.container-lg {
   margin-left: 0 !important;
   max-width: none !important;
 }
 
 html.is-wide-github-enabled .application-main .container-xl,
+html.is-wide-github-enabled main .container-xl,
 html.is-wide-github-enabled .gist-content-wrapper .container-lg {
   max-width: none !important;
 }

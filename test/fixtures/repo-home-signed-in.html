@@ -1,0 +1,18 @@
+<!-- Repository home page as served to some signed-in users (issue #41).
+     The page is wrapped in NotificationShelfLayout instead of .application-main,
+     so rules scoped to .application-main never apply. Ancestor chain taken from
+     the reporter's DOM:
+     DIV.prc-PageLayout-PageLayoutRoot < DIV < MAIN < DIV.NotificationShelfLayout-module_cLL1EG_shelfLayout < DIV < DIV < BODY -->
+<div>
+  <div>
+    <div class="NotificationShelfLayout-module_cLL1EG_shelfLayout">
+      <main>
+        <div>
+          <div class="prc-PageLayout-PageLayoutRoot--KH-d container-xl" data-expect="wide">
+            <article class="markdown-body entry-content container-lg" data-expect="wide"></article>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
